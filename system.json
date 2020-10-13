@@ -24,8 +24,8 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "hp",
   "secondaryTokenAttribute": null,
-  "url": "",
-  "manifest": "",
+  "url": "https://github.com/matfournier/glog",
+  "manifest": "https://raw.githubusercontent.com/matfournier/glog/main/system.json",
   "download": "",
   "license": "LICENSE.txt"
 }
