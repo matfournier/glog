@@ -7,6 +7,8 @@ import { GlogItemSheet } from "./item/item-sheet.js";
 import { G } from "./config.js";
 import { registerSystemSettings } from "./settings.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
+import { _getInitiativeFormula } from "./combat.js";
+
 import TraitSelector from "./apps/trait-selector.js";
 
 /**
@@ -60,6 +62,9 @@ Hooks.once('init', async function () {
 
   // Register System Settings
   registerSystemSettings();
+
+  // overide initiative to do pass wis check or fail wis check
+  Combat.prototype._getInitiativeFormula = _getInitiativeFormula;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
