@@ -1,0 +1,35 @@
+{{!-- Status  --}}
+<h4 class="statmod-header">
+    <a class="statmod-control add-statmod"><i class="fas fa-plus"></i></a>
+</h4>
+<ol class="statmod-parts form-group">
+    {{#each data.statMods.parts as |part i| }}
+    <li class="statmod-part flexrow" data-stat-part="{{i}}">
+        <select name="data.statMods.parts.{{i}}.1">
+            {{#select (lookup this "1") }}
+            {{#each ../config.statModTypes as |name type|}}
+            <option value="{{type}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+        <select name="data.statMods.parts.{{i}}.0">
+            {{#select (lookup this "0") }}
+            {{#each ../config.modifiers as |name type|}}
+            <option value="{{type}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+        <input type="text" name="data.statMods.parts.{{i}}.2" value="{{lookup this "2"}}" />
+        <select name="data.statMods.parts.{{i}}.4">
+            {{#select (lookup this "4") }}
+            {{#each ../config.statBonusTypes as |name type|}}
+            <option value="{{type}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+        <a class="statmod-control delete-statmod"><i class="fas fa-minus"></i></a>
+    </li>
+
+    {{/each}}
+
+</ol>

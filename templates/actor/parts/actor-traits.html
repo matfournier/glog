@@ -1,0 +1,85 @@
+<div class="traits">
+    <div class="form-group">
+        <label>Size</label>
+        <select class="actor-size" name="data.traits.size">
+            {{#select data.traits.size}}
+            {{#each config.actorSizes as |label size|}}
+                <option value="{{size}}">{{label}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+
+    
+    <div class="form-group {{data.traits.languages.cssClass}}">
+        <label>Languages</label>
+        <a class="trait-selector" data-options="languages" data-target="data.traits.languages">
+            <i class="fas fa-edit"></i>
+        </a>
+        <ul class="traits-list">
+        {{#each data.traits.languages.selected as |v k|}}
+            <li class="tag {{k}}">{{v}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
+    <div class="form-group {{data.traits.di.cssClass}}">
+        <label>Damage Immunity</label>
+        <a class="trait-selector" data-options="damageTypes" data-target="data.traits.di">
+            <i class="fas fa-edit"></i>
+        </a>
+        <ul class="traits-list">
+        {{#each data.traits.di.selected as |v k|}}
+            <li class="tag {{k}}">{{v}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
+    <div class="form-group {{data.traits.dr.cssClass}}">
+        <label>Damage Resistances</label>
+        <a class="trait-selector" data-options="damageTypes" data-target="data.traits.dr">
+            <i class="fas fa-edit"></i>
+        </a>
+        <ul class="traits-list">
+        {{#each data.traits.dr.selected as |v k|}}
+            <li class="tag {{k}}">{{v}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
+    <div class="form-group {{data.traits.dv.cssClass}}">
+        <label>Damage Vulnerability</label>
+        <a class="trait-selector" data-options="damageTypes" data-target="data.traits.dv">
+            <i class="fas fa-edit"></i>
+        </a>
+        <ul class="traits-list">
+        {{#each data.traits.dv.selected as |v k|}}
+            <li class="tag {{k}}">{{v}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
+    <div class="form-group {{data.traits.ci.cssClass}}">
+        <label>Condition Immunities</label>
+        <a class="trait-selector" data-options="conditionTypes" data-target="data.traits.ci">
+            <i class="fas fa-edit"></i>
+        </a>
+        <ul class="traits-list">
+        {{#each data.traits.ci.selected as |v k|}}
+            <li class="tag {{k}}">{{v}}</li>
+        {{/each}}
+        </ul>
+    </div>
+
+    <div class="form-group {{data.traits.ci.cssClass}}">
+        <label>Monster Tags</label>
+        <a class="trait-selector" data-options="monsterTags" data-target="data.traits.mt">
+            <i class="fas fa-edit"></i>
+        </a>
+        <ul class="traits-list">
+        {{#each data.traits.mt.selected as |v k|}}
+            <li class="tag {{k}}">{{v}}</li>
+        {{/each}}
+        </ul>
+    </div>
+</div>

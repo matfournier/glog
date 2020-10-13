@@ -1,0 +1,121 @@
+{{!-- Activation Cost --}}
+<div class="form-group input-select">
+    <label>Usage Type</label>
+    <div class="form-fields">
+        <select name="data.activation.type">
+            {{#select data.activation.type}}
+            <option value=""></option>
+            {{#each config.abilityActivationTypes as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>
+{{#if data.activation.type}}
+
+{{!-- Activation Condition --}}
+<div class="form-group">
+    <label>Activation Condition</label>
+    <div class="form-fields">
+        <input type="text" name="data.activation.condition" value="{{data.activation.condition}}"/>
+    </div>
+</div>
+
+{{!-- Ability Target --}}
+<div class="form-group input-select-select">
+    <label>Target Templates</label>
+    <div class="form-fields">
+        <input type="text" name="data.target.value" value="{{data.target.value}}" placeholder="-"/>
+        <select name="data.target.units">
+            {{#select data.target.units}}
+            <option value=""></option>
+            {{#each config.distanceUnits as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+        <select name="data.target.type">
+            {{#select data.target.type}}
+            <option value=""></option>
+            {{#each config.targetTypes as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>
+
+{{!-- Ability Range --}}
+<div class="form-group input-select">
+    <label>Range</label>
+    <div class="form-fields">
+        <input type="text" name="data.range.value" value="{{data.range.value}}" placeholder="Range"/>
+        <select name="data.range.units">
+            {{#select data.range.units}}
+            <option value=""></option>
+            {{#each config.distanceUnits as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>
+
+{{!-- Effect Duration --}}
+<div class="form-group input-select">
+    <label>Duration</label>
+    <div class="form-fields">
+        <input type="text" name="data.duration.value" value="{{data.duration.value}}" placeholder="Dur"/>
+        <select name="data.duration.units">
+            {{#select data.duration.units}}
+            <option value=""></option>
+            {{#each config.timePeriods as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>
+
+{{!-- Limited Uses --}}
+<div class="form-group uses-per">
+    <label>Limited Uses</label>
+    <div class="form-fields">
+        <input type="text" name="data.uses.value" value="{{data.uses.value}}" data-dtype="Number"/>
+        <span class="sep">of</span>
+        <input type="text" name="data.uses.max" value="{{data.uses.max}}" data-dtype="Number"/>
+        <select name="data.uses.per">
+            {{#select data.uses.per}}
+            <option value=""></option>
+            {{#each config.limitedUsePeriods as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>
+
+{{!-- Consumption --}}
+<div class="form-group uses-per">
+    <label>Consumption</label>
+    <div class="form-fields">
+        <input type="text" name="data.consume.amount" value="{{data.consume.amount}}" data-dtype="Number" placeholder="Amount"/>
+        <select name="data.consume.type">
+            {{#select data.consume.type}}
+            <option value=""></option>
+            {{#each config.abilityConsumptionTypes as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</div>
+
+<div class="form-group">
+    <label>Consumption Details</label>
+    <div class="form-fields">
+        <input type="text" name="data.consume.details" value="{{data.consume.details}}"/>
+    </div>
+</div>
+{{/if}}

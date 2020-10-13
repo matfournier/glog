@@ -1,0 +1,240 @@
+@import "./variables.less";
+
+/* ----------------------------------------- */
+/*  Basic Structure                          */
+/* ----------------------------------------- */
+.glog.sheet.actor.character {
+  min-width: 720px;
+  min-height: 680px;
+
+  /* ----------------------------------------- */
+  /*  Sheet Header                             */
+  /* ----------------------------------------- */
+
+  .sheet-header {
+
+    // Character Profile image (larger)
+    img.profile {
+      flex: 0 0 160px;
+      max-width: 160px;
+      height: 160px;
+    }
+
+    // Character Level
+    .charlevel {
+      flex: 0 0 20px;
+      height: 20px;
+      font-size: 18px;
+      color: @colorTan;
+    }
+
+    // Experience Tracking
+    .experience {
+      flex: 0 0 32px;
+      margin-bottom: -5px;
+      align-items: center;
+      font-size: 18px;
+      span.max {
+        color: @colorTan;
+        flex: none;
+        margin-left: 3px;
+      }
+    }
+    .xpbar {
+      flex: 0 0 8px;
+      width: 100%;
+      margin-bottom: 5px;
+      background: @colorTan;
+      border: 1px solid #000;
+      border-radius: 3px;
+      .bar {
+        height: 4px;
+        margin: 1px;
+        display: block;
+        background: #afebff;
+        border: 1px solid #000;
+        border-radius: 2px;
+      }
+    }
+
+    // Header Attributes
+    .attributes {
+      a.rest {
+        border: 1px solid @colorBeige;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0 3px;
+        margin: 0 3px;
+      }
+
+      .hit-dice {
+        font-size: 24px;
+      }
+
+      .initiative .attribute-footer input {
+        width: 32px;
+      }
+    }
+
+    .summary .proficiency {
+      text-align: right;
+      padding-right: 5px;
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Sheet Body                               */
+  /* ----------------------------------------- */
+
+  // Custom Resources
+  .resource .attribute-value {
+    input {
+      flex: 0 0 25%;
+    }
+    label.recharge {
+      height: 32px;
+      position: relative;
+      font-size: 13px;
+      text-align: center;
+      color: @colorOlive;
+      input[type="checkbox"] {
+        height: 14px;
+        width: 14px;
+        margin: 0;
+        top: -6px;
+      }
+    }
+  }
+
+  ul.skills-list {
+    flex: 0 0 212px;
+
+    li.skill {
+      padding: 3px;
+      h4 {
+        flex: 1px;
+        margin: 0;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .item-detail.player-class {
+    flex: 0 0 180px;
+    text-align: right;
+    padding-right: 10px;
+  }
+
+  /* ----------------------------------------- */
+  /*  Inventory                                */
+  /* ----------------------------------------- */
+
+  /* Encumbrance Bar */
+  .encumbrance {
+    flex: 0 0 12px;
+    background: @colorTan;
+    margin: 1px 15px 0 1px;
+    border: 1px solid @colorDark;
+    border-radius: 3px;
+    position: relative;
+
+    .encumbrance-bar {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      background: #6c8aa5;
+      height: 8px;
+      border: 1px solid #cde4ff;
+      border-radius: 2px;
+    }
+
+    .encumbrance-label {
+      height: 10px;
+      padding: 0 5px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 13px;
+      line-height: 12px;
+      text-align: right;
+      color: #EEE;
+      text-shadow: 0 0 5px #000;
+    }
+
+    .encumbrance-breakpoint {
+      display: block;
+      position: absolute;
+      &.encumbrance-33 { left: 33% }
+      &.encumbrance-66 { left: 66% }
+    }
+
+    .arrow-up {
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 4px solid #666;
+    }
+
+    .arrow-down {
+      top: 0;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 4px solid #666;
+    }
+
+    &.encumbered {
+      .arrow-up { border-bottom: 4px solid #000; }
+      .arrow-down { border-top: 4px solid #000; }
+    }
+  }
+
+  /* ----------------------------------------- */
+  /*  Item Controls                            */
+  /* ----------------------------------------- */
+
+  .inventory,
+  .spellbook {
+    .item-controls {
+      flex: 0 0 68px;
+      .item-toggle {
+        color: @colorBeige;
+        &.active {
+          color: @colorOlive;
+        }
+        &.fixed {
+          color: @colorCrimson;
+          &:hover {
+            text-shadow: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* -------------------------------------------- */
+/* Statmod Controls */
+/* -------------------------------------------- */
+.inventory,
+.spellbook {
+  .statmodeq-controls {
+    flex: 0 0 68px;
+    .statmodeq-toggle {
+      color: @colorBeige;
+      &.active {
+        color: @colorOlive;
+      }
+      &.fixed {
+        color: @colorCrimson;
+        &:hover {
+          text-shadow: none;
+        }
+      }
+    }
+  }
+
+}

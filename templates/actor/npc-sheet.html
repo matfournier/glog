@@ -1,0 +1,145 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
+
+        <section class="header-details flexrow">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+            </h1>
+
+            <aside class="header-exp flexcol">
+                <div class="cr hd rollable">
+                    <label class="hd rollable">HD
+                    </label>
+                    <input name="data.details.cr.level" type="text" value="{{data.details.cr.level}}" placeholder="1" />
+                </div>
+
+                <div class="cr">
+                    <input name="data.details.xp.value" type="text" value="{{data.details.xp.value}}" placeholder="1" />
+                    <label>xp
+                    </label>
+                </div>
+            </aside>
+
+            {{!-- Character Summary --}}
+            <ul class="summary flexrow">
+                <li>
+                    <span>{{lookup config.actorSizes data.traits.size}}</span>
+                </li>
+                <li>
+                    <input type="text" name="data.details.source" value="{{data.details.source}}"
+                        placeholder="Source" />
+                </li>
+            </ul>
+
+            {{!-- Header Attributes --}}
+            <ul class="attributes flexrow">
+                <li class="attribute health">
+                    <h4 class="attribute-name box-title rollable">Hitpoints</h4>
+                    <div class="attribute-value multiple">
+                        <input name="data.hp.value" type="number" value="{{data.hp.value}}"
+                            placeholder="10" />
+                        <span class="sep"> / </span>
+                        <input name="data.hp.max" type="number" value="{{data.hp.max}}"
+                            placeholder="10" />
+                    </div>
+                    <footer class="attribute-footer">
+                        <input name="data.attributes.hp.formula" class="hpformula" type="text"
+                            placeholder="Override HP Roll" value="{{data.attributes.hp.formula}}" />
+                    </footer>
+                </li>
+                <li class="attribute">
+                    <h4 class="attribute-name box-title">Movement</h4>
+                    <div class="attribute-value">
+                        <input name="data.movement.value" type="text" value="{{data.movement.value}}"
+                            placeholder="30" />
+                    </div>
+                </li>
+
+                <li class="attribute morale">
+                    <h4 class="attribute-name box-title rollable">Morale</h4>
+                    <div class="attribute-value">
+                        <input name="data.morale" type="text" value="{{data.morale}}" />
+                    </div>
+                </li>
+
+                <li class="attribute"></li>
+            </ul>
+        </section>
+    </header>
+
+    {{!-- NPC Sheet Navigation --}}
+    <nav class="sheet-navigation tabs" data-group="primary">
+        <a class="item active" data-tab="attributes">Stats</a>
+        <a class="item" data-tab="features">Features</a>
+        <a class="item" data-tab="spellbook">Spells</a>
+        <a class="item" data-tab="biography">Description</a>
+    </nav>
+
+    {{!-- NPC Sheet Body --}}
+    <section class="sheet-body">
+
+        <div class="tab attributes flexrow" data-group="primary" data-tab="attributes">
+            {{!-- Ability Scores --}}
+            <ul class="ability-scores flexrow">
+                {{#each data.abilities as |ability id|}}
+                <li class="ability {{#if ability.proficient}}proficient{{/if}}" data-ability="{{id}}">
+                    <h4 class="ability-name box-title rollable" title="Bonus: {{ability.bonus}}">{{ability.label}}</h4>
+                    <input class="ability-score" name="data.abilities.{{id}}.value" type="text"
+                        value="{{ability.value}}" data-dtype="Number" placeholder="10" />
+                    <div class="ability-modifiers flexrow">
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+
+
+            {{!-- Primary Stats --}}
+            <section class="center-pane flexcol">
+
+                <ul class="ability-scores flexrow">
+                    {{#each data.primaryStats as |ability id|}}
+                    <li class="ability proficient" data-ability="{{id}}">
+                        <h4 class="ability-name box-title rollable">{{ability.label}}</h4>
+                        <input class="ability-score" name="data.primaryStats.{{id}}.value" type="text"
+                            value="{{ability.value}}" data-dtype="Number" placeholder="0" />
+                    </li>
+                    {{/each}}
+                </ul>
+
+                <section class="center-pane">
+                    <div class="counters">
+                        {{!-- Traits --}}
+                        {{> "systems/glog/templates/actor/parts/actor-traits.html"}}
+                    </div>
+                </section>
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab inventory flexcol" data-group="primary" data-tab="effects">
+            {{> "systems/glog/templates/actor/parts/actor-effects.html" sections=effects}}
+        </div>
+
+        {{!-- Inventory Tab --}}
+        <div class="tab inventory flexcol" data-group="primary" data-tab="inventory">
+            {{> "systems/glog/templates/actor/parts/actor-inventory.html" sections=inventory}}
+        </div>
+
+        {{!-- Features Tab --}}
+        <div class="tab spellbook flexcol" data-group="primary" data-tab="features">
+            {{> "systems/glog/templates/actor/parts/actor-features.html" sections=features}}
+        </div>
+
+        {{!-- Spellbook Tab --}}
+        <div class="tab spellbook flexcol" data-group="primary" data-tab="spellbook">
+            {{> "systems/glog/templates/actor/parts/actor-spellbook.html" sections=spellbook}}
+        </div>
+
+        {{!-- Biography Tab --}}
+        <div class="tab biography flexcol" data-group="primary" data-tab="biography">
+            {{editor content=data.details.biography.value target="data.details.biography.value" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

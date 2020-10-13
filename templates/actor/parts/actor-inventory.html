@@ -1,0 +1,60 @@
+<ol class="inventory-list">
+{{#each sections as |section sid|}}
+    <li class="inventory-header flexrow">
+        <h3 class="item-name flexrow">{{section.label}}</h3>
+        <div class="item-detail item-weight">Qty</div>
+        <div class="item-detail item-action">Slots</div>
+        <div class="item-detail item-uses">Charges</div>
+
+        <div class="item-controls">
+            <a class="item-control item-create" title='Item Create'
+             {{#each section.dataset as |v k|}}data-{{k}}="{{v}}"{{/each}}>
+                <i class="fas fa-plus"></i>Add
+            </a>
+        </div>
+    </li>
+
+    <ol class="item-list">
+    {{#each section.items as |item iid|}}
+        <li class="item flexrow {{section.css}}" data-item-id="{{item._id}}">
+            <div class="item-name flexrow rollable">
+                <div class="item-image" style="background-image: url({{item.img}})"></div>
+                <h4>
+                    {{#if section.isLoot}}
+                    {{item.richName}}
+                    {{ else }}
+                    {{item.name~}}
+                    {{/if}}
+                </h4>
+            </div>
+
+            <div class="item-detail item-weight">
+                <div class="item-detail">
+                    {{ item.data.quantity }}
+                </div>            </div>
+
+            <div class="item-detail item-action">
+                <div class="item-detail">
+                    {{ item.totalSlots }}
+                </div>
+
+            </div>
+
+            <!-- TODO should this be the total qty * charges?  Not sure! -->
+            <div class="item-detail item-uses">
+                {{#if item.hasUses }}
+                    <input type="text" value="{{item.data.uses.value}}" placeholder="0"/>
+                    / {{item.data.uses.max}}
+                {{/if}}
+            </div>
+
+            <div class="item-controls">
+                <a class="item-control item-toggle {{item.toggleClass}}" title='{{item.toggleTitle}}'><i class="fas fa-shield-alt"></i></a>
+                <a class="item-control item-edit" title='Item Edit'><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title='Item Delete'><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+    {{/each}}
+    </ol>
+{{/each}}
+</ol>

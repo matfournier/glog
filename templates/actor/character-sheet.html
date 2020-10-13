@@ -1,0 +1,228 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
+
+        <section class="header-details flexrow">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+            </h1>
+
+            <aside class="header-exp flexrow">
+                <div class="charxp">
+                    <label>Level</label>
+                        <div class="attribute-value multiple">
+                        <input name="data.level" type="text" value="{{data.level}}"
+                        data-dtype="Number" />                        
+                </div>
+                </div>
+
+                <div class="charxp">
+                    <label>XP</label>
+                        <div class="attribute-value multiple">
+                        <input name="data.xp" type="text" value="{{data.xp}}"
+                        data-dtype="Number" />                        
+                </div>
+                </div>
+            </aside>
+
+            {{!-- Character Summary --}}
+            <ul class="summary flexrow">
+                <li class="box-title"> 
+                    {{classTitle}}
+                </li>
+            </ul>
+
+            {{!-- Header Attributes --}}
+            <ul class="attributes flexrow">
+                <li class="attribute health">
+                    <h4 class="attribute-name box-title">Health</h4>
+                    <div class="attribute-value multiple">
+                        <input name="data.hp.value" type="text" value="{{data.hp.value}}" data-dtype="Number"
+                            placeholder="10" />
+                        <span class="sep"> / </span>
+                        <input name="data.hp.max" type="text" value="{{data.hp.max}}" data-dtype="Number"
+                            placeholder="10" />
+                    </div>
+                    <footer class="attribute-footer">
+                        <input name="data.hp.tempValue" type="text" class="temphp" placeholder="+Temp"
+                            value="{{data.hp.tempValue}}" data-dtype="Number" />
+                        <input name="data.hp.tempMax" type="text" class="temphp" placeholder="+Max"
+                            value="{{data.hp.tempMax}}" data-dtype="Number" />
+                    </footer>
+                </li>
+
+                <li class="attribute">
+                    <h4 class="attribute-name box-title">
+                        <span class="defsave rollable" data-ability="def">Def</span> / 
+                         <span class="defsave rollable" data-ability="save">Save</span></h4>
+
+
+                    <div class="attribute-value multiple">
+                        <label class="def-stuff"><span>{{data.primaryStats.def.value}}</span> <span
+                                class="sep"> / </span>
+                            <span>{{data.primaryStats.save.value}}</span></label>
+                    </div>
+                </li>
+
+                <li class="attribute">
+                    <h4 class="attribute-name box-title">Movement</h4>
+                    <div class="attribute-value">
+                        <span>{{data.primaryStats.movement.value}} / {{data.primaryStats.run.value}}</span>
+                    </div>
+                    <footer class="attribute-footer">
+                        <a class="rest short-rest">Lunch</a>
+                        <a class="rest long-rest">Rest</a>
+                    </footer>
+                </li>
+
+                <li class="attribute">
+                    <h4 class="attribute-name box-title">Quick Slots</h4>
+                    <div class="attribute-value multiple">
+                        <label class="quick-slots">{{numberFormat data.slots.quick.value decimals=1 sign=true}}<span
+                                class="sep"> / </span>
+                            {{numberFormat data.slots.quick.max decimals=0}}</label>
+                    </div>
+                </li>
+
+                <li class="attribute">
+                    <h4 class="attribute-name box-title">Slow Slots</h4>
+                    <div class="attribute-value multiple">
+                        <label class="slow-slots"></label>{{numberFormat data.slots.slow.value decimals=1 sign=true}}<span 
+                               class="sep"> / </span>
+                        {{numberFormat data.slots.slow.max decimals=0}}</label>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </header>
+
+    {{!-- NPC Sheet Navigation --}}
+    <nav class="sheet-navigation tabs" data-group="primary">
+        <a class="item active" data-tab="attributes">Stats</a>
+        <a class="item" data-tab="effects">Effects</a>
+        <a class="item" data-tab="inventory">Inventory</a>
+        <a class="item" data-tab="features">Features</a>
+        <a class="item" data-tab="spellbook">Spells</a>
+        <a class="item" data-tab="biography">Bio</a>
+    </nav>
+
+    {{!-- NPC Sheet Body --}}
+    <section class="sheet-body">
+
+        <div class="tab attributes flexrow" data-group="primary" data-tab="attributes">
+            {{!-- Ability Scores --}}
+            <ul class="ability-scores flexrow">
+            {{#each data.abilities as |ability id|}}
+                <li class="ability {{#if ability.proficient}}proficient{{/if}}" data-ability="{{id}}">
+                    <h4 class="ability-name box-title rollable" title="Bonus: {{ability.bonus}}">{{ability.label}}</h4>
+                    <input class="ability-score" name="data.abilities.{{id}}.value" type="text" value="{{ability.value}}" data-dtype="Number" placeholder="10"/>
+                    <div class="ability-modifiers flexrow">
+                        <span class="ability-mod" title="Modifier">{{numberFormat ability.mod decimals=0 sign=true}}</span>
+                        <span title="Bonus: {{ability.bonus}}"></span>
+                        <span class="ability-save" title="Total">{{numberFormat ability.total decimals=0 sign=true}}</span>
+                    </div>
+                </li>
+            {{/each}}
+            </ul>
+
+
+            {{!-- other stats --}}
+            <ul class="skills-list">
+                {{#each data.stats as |stat s|}}
+                <li class="skill flexrow proficient" data-skill="{{s}}">
+                    <input type="hidden" name="data.stats.{{s}}.value" value="{{stat.value}}" data-dtype="Number" />
+                    <a class="proficiency-toggle skill-proficiency" title="{{stat.hover}}">{{{stat.icon}}}</a>
+                    <h4 class="skill-name {{#if stat.rollable}}rollable{{/if}}">{{stat.label}}</h4>
+                    <span class="skill-mod">{{stat.value}}</span>
+                </li>
+                {{/each}}
+            </ul>
+
+
+            <section class="center-pane flexcol">
+
+                {{!-- Body Attributes --}}
+                <ul class="attributes flexrow">
+                    {{#each resources as |res|}}
+                    <li class="attribute resource dicepool rollable" data-pool="{{r}}">
+                        <h4 class="attribute-name box-title">
+                            <input name="data.resources.{{res.name}}.title" type="text" value="{{res.title}}"
+                                placeholder="{{res.placeholder}}" />
+                        </h4>
+                        <div class="attribute-value">
+                            <input name="data.resources.{{res.name}}.value" type="text" value="{{res.value}}"
+                                data-dtype="Number" placeholder="0" />
+                            <span class="sep"> / </span>
+                            <input name="data.resources.{{res.name}}.max" type="text" value="{{res.max}}"
+                                data-dtype="Number" placeholder="0" />
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+                <div class="counters">
+                    {{!-- Traits --}}
+                    {{> "systems/glog/templates/actor/parts/actor-traits.html"}}
+                </div>
+
+                <ul class="attributes flexrow">
+                    {{#each extraResources as |res r|}}
+                    <li class="attribute resource dicepool rollable" data-pool="{{r}}">
+                        <h4 class="attribute-name box-title">
+                            <input name="data.resources.{{res.name}}.title" type="text" value="{{res.title}}"
+                                placeholder="{{res.placeholder}}" />
+                        </h4>
+                        <div class="attribute-value">
+                            <input name="data.resources.{{res.name}}.value" type="text" value="{{res.value}}"
+                                data-dtype="Number" placeholder="0" />
+                            <span class="sep"> / </span>
+                            <input name="data.resources.{{res.name}}.max" type="text" value="{{res.max}}"
+                                data-dtype="Number" placeholder="0" />
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+
+                {{! -- Fatigue --}}
+                <ul class="ability-scores flexrow">
+                        <li class="ability proficient" data-ability="fatigue">
+                            <h4 class="ability-name box-title rollable">Fatigue</h4>
+                            <input class="ability-score" name="data.aux.fatigue.value" type="text" value="{{data.aux.fatigue.value}}" data-dtype="Number" placeholder="0"/>
+                            <div class="ability-modifiers flexrow">
+                                <span class="ability-mod" title="Modifier">{{numberFormat data.aux.fatigue.mod decimals=0 sign=true}}</span>
+                                <span></span>
+                                <span class="ability-save" title="Total">{{numberFormat data.aux.fatigue.total decimals=0 sign=true}}</span>
+                            </div>
+                        </li>
+                    </ul>
+
+            </section>
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab inventory flexcol" data-group="primary" data-tab="effects">
+            {{> "systems/glog/templates/actor/parts/actor-effects.html" sections=effects}}
+        </div>
+
+        {{!-- Inventory Tab --}}
+        <div class="tab inventory flexcol" data-group="primary" data-tab="inventory">
+            {{> "systems/glog/templates/actor/parts/actor-inventory.html" sections=inventory}}
+        </div>
+
+        {{!-- Features Tab --}}
+        <div class="tab spellbook flexcol" data-group="primary" data-tab="features">
+            {{> "systems/glog/templates/actor/parts/actor-features.html" sections=features}}
+        </div>
+
+        {{!-- Spellbook Tab --}}
+        <div class="tab spellbook flexcol" data-group="primary" data-tab="spellbook">
+            {{> "systems/glog/templates/actor/parts/actor-spellbook.html" sections=spellbook}}
+        </div>
+
+        {{!-- Biography Tab --}}
+        <div class="tab biography flexcol" data-group="primary" data-tab="biography">
+            {{editor content=data.details.biography.value target="data.details.biography.value" button=true owner=owner editable=editable}}
+        </div>
+    </section>
+</form>

@@ -1,0 +1,31 @@
+{
+  "name": "glog",
+  "title": "Glog",
+  "description": "The Glog system for FoundryVTT!",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.7.3",
+  "compatibleCoreVersion": "0.7.3",
+  "templateVersion": 2,
+  "author": "MatF",
+  "esmodules": ["module/glog.js"],
+  "styles": ["glog.css"],
+  "scripts": [
+    "scripts/sanctuary.js"
+  ],
+  "packs": [],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "gridDistance": 10,
+  "gridUnits": "ft",
+  "primaryTokenAttribute": "hp",
+  "secondaryTokenAttribute": null,
+  "url": "",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE.txt"
+}

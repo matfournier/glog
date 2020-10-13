@@ -1,0 +1,23 @@
+<section class="glog chat-message">
+    <div class="glog chat-block">
+        <div class="flexrow chat-header">
+            <div class="chat-title"><h2>{{title}}</h2></div>
+        </div>
+        <div class="flavor">
+            {{#each flavor as |f|}}
+            <p>{{f.text}}</p>
+            {{/each}}
+        </div>
+        <div class="extra">
+            {{#each data.extra as |extra|}}
+            <p>{{extra.text}}</p>
+            {{/each}}
+        </div>
+        {{#if rollGLOG}}<div>{{{rollGLOG}}}</div>{{/if}}
+        <div class="stuff">
+            <div class='roll-result roll-fail'>
+                <b>{{result.damage}} DAMAGE</b>
+            </div>
+        </div>
+    </div>
+</section>

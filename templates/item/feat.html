@@ -1,0 +1,72 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+    {{!-- Item Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
+
+        <div class="header-details flexrow">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{item.name}}" placeholder="Item Name" />
+            </h1>
+
+            <div class="item-subtitle">
+                <h4 class="item-type">{{itemType}}</h4>
+                <span class="item-status">{{itemStatus}}</span>
+            </div>
+
+            <ul class="summary flexrow">
+                <li>
+                    <input type="text" name="data.source" value="{{data.source}}" placeholder="Source" />
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    {{!-- Item Sheet Navigation --}}
+    <nav class="sheet-navigation tabs" data-group="primary">
+        <a class="item active" data-tab="description">Description</a>
+        <a class="item" data-tab="details">Details</a>
+    </nav>
+
+    {{!-- Item Sheet Body --}}
+    <section class="sheet-body">
+
+        {{!-- Description Tab --}}
+        {{> "systems/glog/templates/item/parts/item-description.html"}}
+
+        {{!-- Details Tab --}}
+        <div class="tab details" data-group="primary" data-tab="details">
+            {{!-- Skill or Race --}}
+            <div class="form-group">
+                <label>Skill or Race</label>
+                <div class="form-fields">
+                    <select name="data.skillorrace">
+                        {{#select data.skillorrace}}
+                        {{#each config.skillOrRace as |name type|}}
+                        <option value="{{type}}">{{name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+            </div>
+
+            <h3 class="form-header">Usage</h3>
+
+            {{!-- Item Activation Template --}}
+            {{> "systems/glog/templates/item/parts/item-activation.html"}}
+
+            <h3 class="form-header">Action</h3>
+
+            {{!-- Item Action Template --}}
+            {{> "systems/glog/templates/item/parts/item-action.html" misc=true}}
+
+            {{#if data.ownedByPC}}
+            <h3 class="form-header">Self Stat Effects (if any)
+            </h3>   
+            {{> "systems/glog/templates/item/parts/item-stats.html"}}
+            {{/if}}
+            <h3></h3>
+
+        </div>
+    </section>
+</form>

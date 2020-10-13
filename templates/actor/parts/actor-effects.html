@@ -1,0 +1,68 @@
+<ol class="inventory-list">
+    {{#each sections as |section sid|}}
+        <li class="inventory-header flexrow">
+            <h3 class="item-name flexrow">{{section.label}}</h3>
+            <div class="item-detail item-action">
+                {{#if section.isEffect }}
+                Stat
+                {{/if}}
+            </div>
+            <div class="item-detail item-qty">Value</div>
+    
+            {{#if section.isEffect }}
+            <div class="item-controls">
+                <a class="item-control item-create" title='Item Create'
+                 {{#each section.dataset as |v k|}}data-{{k}}="{{v}}"{{/each}}>
+                    <i class="fas fa-plus"></i>Add
+                </a>
+            </div>
+            {{/if}}
+        </li>
+    
+        <ol class="item-list">
+        {{#each section.mods as |mod iid|}}
+            <li class="item flexrow {{section.css}}" data-item-id="{{mod._id}}">
+                <div class="item-name flexrow rollable">
+                    <h4>
+                        {{#if section.isEffect }}
+                            {{mod.name}}
+                        {{ else }}
+                        {{mod.source}}
+                        {{/if}}
+                    </h4>
+                </div>
+        
+                <div class="stat-detail stat-action">
+                    <div class="item-detail">
+                        {{#if section.isNested}}
+                        {{ mod.data.mod.stat }}
+                        {{else}}
+                        {{ mod.label }}
+                        {{/if}}
+                    </div>
+                </div>
+    
+                <!-- TODO should this be the total qty * charges?  Not sure! -->
+                <div class="item-detail item-qty">
+                    <div class="item-detail">
+                        {{#if section.isNested}}
+                        {{ mod.data.mod.value }}
+                        {{else}}
+                        {{ mod.value }}
+                        {{/if}}
+                    </div>
+                </div>
+                {{#if section.isEffect }}
+                <div class="item-controls">
+                    <a class="item-control item-toggle {{mod.toggleClass}}" title='{{mod.toggleTitle}}'><i class="fas fa-shield-alt"></i></a>
+                    <a class="item-control item-edit" title='Item Edit'><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title='Item Delete'><i class="fas fa-trash"></i></a>
+                </div>
+                {{/if}}
+
+            </li>
+        {{/each}}
+        </ol>
+    {{/each}}
+    </ol>
+    
