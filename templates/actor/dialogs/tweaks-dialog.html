@@ -1,0 +1,94 @@
+<form autocomplete="off">
+    <div>MANUALLY CALCULATE THE FOLLOWING</div>
+    <div class="form-group">
+        <label for="def">Defense</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.def" id="def" {{checked
+              data.uconfig.def }} data-dtype="Boolean" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mv">Move Rating</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.mv" id="mv" {{checked
+              data.uconfig.mv }} data-dtype="Boolean" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sth">Stealth</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.sth" id="sth" {{checked
+              data.uconfig.sth }} data-dtype="Boolean" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="save">Save</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.save" id="save" {{checked
+              data.uconfig.save }} data-dtype="Boolean" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="attack">Attack Rating</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.attack" id="attack" {{checked
+              data.uconfig.attack }} data-dtype="Boolean" />
+        </div>
+    </div>
+
+    <div>MANUALLY CALCULATE BONUS MODIFIERS FOR</div>
+
+    <div class="form-group">
+        <label for="strength">Strength</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.str" id="strength" {{checked
+              data.uconfig.str }} data-dtype="Boolean" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="dexterity">Dexterity</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.dex" id="dexterity" {{checked
+              data.uconfig.dex }} data-dtype="Boolean" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="con">Constituition</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.con" id="con" {{checked
+              data.uconfig.con }} data-dtype="Boolean" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="int">Intelligence</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.int" id="int" {{checked
+              data.uconfig.int }} data-dtype="Boolean" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="wis">Wisdom</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.wis" id="wis" {{checked
+              data.uconfig.wis }} data-dtype="Boolean" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="cha">Charisma</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.cha" id="cha" {{checked
+              data.uconfig.cha }} data-dtype="Boolean" />
+        </div>
+    </div>
+ 
+    <footer class="sheet-footer">
+        <button type="submit">
+            <i class="fas fa-save"></i>Save Changes
+        </button>
+    </footer>
+</form>

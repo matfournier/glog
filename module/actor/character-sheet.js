@@ -1,5 +1,6 @@
 import { G } from "../config.js";
 import BaseGlogSheet from "./base-sheet.js";
+import { GlogActorTweaks } from "../dialog/actor-tweaks.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -180,5 +181,38 @@ export class GlogCharacterSheet extends BaseGlogSheet {
     await this._onSubmit(event);
     return this.actor.longRest();
   }
+
+  /**
+  * Extend and override the sheet header buttons so we can add a 
+  * popup to turn off specific automation things. 
+  * 
+  * @override
+  */
+ _getHeaderButtons() {
+   let buttons = super._getHeaderButtons();
+
+   // Token Configuration
+   const canConfigure = game.user.isGM || this.actor.owner;
+   if (this.options.editable && canConfigure) {
+     buttons = [
+       {
+         label: "tweaks",
+         class: "configure-actor",
+         icon: "fas fa-code",
+         onclick: (ev) => this._onConfigureActor(ev),
+       },
+     ].concat(buttons);
+   }
+   return buttons;
+ }
+
+ _onConfigureActor(event) {
+  event.preventDefault();
+  new GlogActorTweaks(this.actor, {
+    top: this.position.top + 40,
+    left: this.position.left + (this.position.width - 400) / 2,
+  }).render(true);
+}
+
 
 }

@@ -71,8 +71,8 @@ G.stats = {
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier",
-    "invSlow": "Slow Slot Modifier",
+    "invQuick": "Quick Slot Modifier (not impl)",
+    "invSlow": "Slow Slot Modifier (not impl)",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -81,7 +81,22 @@ G.stats = {
     "rangeDistanceMod": "Range Distance Modifier",
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
-    "fatigueMod": "Fatigue Modifier"
+    "fatigueMod": "Fatigue Modifier",
+    "maxHPMod": "Max HP Modifier (not impl)"
+};
+
+G.configStats = {
+    "str" : "Str",
+    "dex": "Dex",
+    "con": "Con",
+    "int": "Int",
+    "wis": "Wis",
+    "cha": "Cha",
+    "def": "Def",
+    "mv": "Move Rating",
+    "sth": "Stealth",
+    "save": "Save",
+    "attack": "Attack Ratings"
 };
 
 G.npcStats = {
@@ -91,8 +106,8 @@ G.npcStats = {
     "mv": "MV",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier",
-    "invSlow": "Slow Slot Modifier",
+    "invQuick": "Quick Slot Modifier (not impl)",
+    "invSlow": "Slow Slot Modifier (not impl)",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -101,7 +116,8 @@ G.npcStats = {
     "rangeDistanceMod": "Range Distance Modifier",
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
-    "fatigueMod": "Fatigue Modifier"
+    "fatigueMod": "Fatigue Modifier",
+    "maxHPMod": "Max HP Modifier (not impl)"
 }
 
 G.allStats = {...G.abilities, ...G.stats};
@@ -110,8 +126,8 @@ G.modifiers = {...G.abilities, ...{
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier",
-    "invSlow": "Slow Slot Modifier",
+    "invQuick": "Quick Slot Modifier (not impl)",
+    "invSlow": "Slow Slot Modifier (not impl)",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -122,7 +138,8 @@ G.modifiers = {...G.abilities, ...{
     "rangeDistanceMod": "Range Distance Modifier",
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
-    "fatigueMod": "Fatigue Modifier"
+    "fatigueMod": "Fatigue Modifier",
+    "maxHPMod": "Max HP Modifier (not impl)"
 }}
 
 G.aux = {
