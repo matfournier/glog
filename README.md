@@ -15,7 +15,7 @@ by [Skerples](https://www.drivethrurpg.com/browse/pub/12623/Skerples).
 ## License
 
 The implementation (this repository) is licensed under GPL 3.  Primarily based 
-on the mechaics of the [Glog Hack by Skerples](https://coinsandscrolls.blogspot.com/2019/10/osr-glog-based-homebrew-v2-many-rats-on.html) which is licensed under
+on the mechanics of the [Glog Hack by Skerples](https://coinsandscrolls.blogspot.com/2019/10/osr-glog-based-homebrew-v2-many-rats-on.html) which is licensed under
 [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
 ## Goals
