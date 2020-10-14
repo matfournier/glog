@@ -4,7 +4,7 @@
 
 All the features you need to play The Goblin Laws of Gaming in Foundry VTT.
 
-Trying to implement [GLOG](https://madqueenscourt.blogspot.com/2020/07/glog-for-gretchlings-or-notes-towards.html) is like to nail water as it's 
+Trying to implement [GLOG](https://madqueenscourt.blogspot.com/2020/07/glog-for-gretchlings-or-notes-towards.html) is like to nail water to a board as it's 
 very nature is unconstrained. It's less a ruleset, more like a movement. This 
 [FoundryVTT](https://foundryvtt.com/) system puts a line in the sand so people 
 can play remotely with friends.
@@ -44,7 +44,7 @@ can be found in the guide section below.
 - Slot usage is calculated and tracked (the little shield equipped icon puts it in your quick slot)
 - Lunch/Rest implemented as well as removing fatal wounds (negative HP) 
 - Weapons/Spells/etc are rollable and provide dialogs to quickly roll what you need 
-- A vastly simpler NPC sheet is present for the GM to fill in as much or as little as required 
+- **A vastly simpler NPC sheet is present for the GM** to fill in as much or as little as required 
     - An option exists to 1-click and provide reasonable defaults for important parameters based on HD that the GM can use as a starting point when making monsters on the fly 
 - A spell damage language exists so you can input sell damage as `[sum] + [best]` for instance 
     - burned dice, doubles, triples, quadruples are also calculated for you 
@@ -53,9 +53,9 @@ The inputs can be rather abstract (see the guide), particular around effects, da
 and (eventually all the classes/skills from Many Rats on a Stick which is in the compendium that 
 comes with the system). 
 
-**However** Nothing in your sheet affects another sheet.  No damage is automatically removed, not 
+**However nothing in your sheet affects another sheet**.  No damage is automatically removed, not 
 even from your own sheet. A dialog may tell you how many dice were burned in a spell but it is up 
-to you to remove those dice.  This does not automate the system for you, but it does aim to automate
+to you to remove those dice. This does not automate the system for you, but it does aim to automate
 the bean counting. 
 
 ### Currency
