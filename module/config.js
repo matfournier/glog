@@ -146,6 +146,15 @@ G.aux = {
     "fatigue": "Fatigue"
 };
 
+G.shortPrimaryStats = {
+    "def": "Defense",
+    "meleeAttack": "Melee Attack",
+    "rangeAttack": "Range Attack",
+    "mv": "Move Rating",
+    "sth": "Stealth",
+    "save": "Save Score",
+}
+
 
 G.statBonusTypes = {
     "weapon": "Just this item's roll",

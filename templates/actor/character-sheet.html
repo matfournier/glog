@@ -12,24 +12,22 @@
             <aside class="header-exp flexrow">
                 <div class="charxp">
                     <label>Level</label>
-                        <div class="attribute-value multiple">
-                        <input name="data.level" type="text" value="{{data.level}}"
-                        data-dtype="Number" />                        
-                </div>
+                    <div class="attribute-value multiple">
+                        <input name="data.level" type="text" value="{{data.level}}" data-dtype="Number" />
+                    </div>
                 </div>
 
                 <div class="charxp">
                     <label>XP</label>
-                        <div class="attribute-value multiple">
-                        <input name="data.xp" type="text" value="{{data.xp}}"
-                        data-dtype="Number" />                        
-                </div>
+                    <div class="attribute-value multiple">
+                        <input name="data.xp" type="text" value="{{data.xp}}" data-dtype="Number" />
+                    </div>
                 </div>
             </aside>
 
             {{!-- Character Summary --}}
             <ul class="summary flexrow">
-                <li class="box-title"> 
+                <li class="box-title">
                     {{classTitle}}
                 </li>
             </ul>
@@ -53,23 +51,23 @@
                     </footer>
                 </li>
 
-                <li class="attribute">
+                <!-- <li class="attribute">
                     <h4 class="attribute-name box-title">
-                        <span class="defsave rollable" data-ability="def">Def</span> / 
-                         <span class="defsave rollable" data-ability="save">Save</span></h4>
+                        <span class="defsave rollable" data-ability="def">Def</span> /
+                        <span class="defsave rollable" data-ability="save">Save</span></h4>
 
 
                     <div class="attribute-value multiple">
-                        <label class="def-stuff"><span>{{data.primaryStats.def.value}}</span> <span
-                                class="sep"> / </span>
+                        <label class="def-stuff"><span>{{data.primaryStats.def.value}}</span> <span class="sep"> /
+                            </span>
                             <span>{{data.primaryStats.save.value}}</span></label>
                     </div>
-                </li>
+                </li> -->
 
                 <li class="attribute">
                     <h4 class="attribute-name box-title">Movement</h4>
                     <div class="attribute-value">
-                        <span>{{data.primaryStats.movement.value}} / {{data.primaryStats.run.value}}</span>
+                        <span>{{data.aux.movement.value}} / {{data.aux.run.value}}</span>
                     </div>
                     <footer class="attribute-footer">
                         <a class="rest short-rest">Lunch</a>
@@ -89,8 +87,9 @@
                 <li class="attribute">
                     <h4 class="attribute-name box-title">Slow Slots</h4>
                     <div class="attribute-value multiple">
-                        <label class="slow-slots"></label>{{numberFormat data.slots.slow.value decimals=1 sign=true}}<span 
-                               class="sep"> / </span>
+                        <label
+                            class="slow-slots"></label>{{numberFormat data.slots.slow.value decimals=1 sign=true}}<span
+                            class="sep"> / </span>
                         {{numberFormat data.slots.slow.max decimals=0}}</label>
                     </div>
                 </li>
@@ -119,27 +118,39 @@
                     <h4 class="ability-name box-title rollable" title="Bonus: {{ability.bonus}}">{{ability.label}}</h4>
                     <input class="ability-score" name="data.abilities.{{id}}.value" type="text" value="{{ability.value}}" data-dtype="Number" placeholder="10"/>
                     <div class="ability-modifiers flexrow">
-                        <span class="ability-mod" title="Modifier">{{numberFormat ability.mod decimals=0 sign=true}}</span>
-                        <span title="Bonus: {{ability.bonus}}"></span>
+                         {{#if ability.override}}
+                         <input class="ability-mod" name="data.abilities.{{id}}.bonus" type="text"
+                         value="{{ability.bonus}}" data-dtype="Number"/>          
+                         {{ else }}
+                         <span class="ability-mod" title="Bonus">{{numberFormat ability.bonus decimals=0 sign=true}}</span>
+                         {{/if}}
+                        <span title="Modifier">{{numberFormat ability.mod decimals=0 sign=true}}</span>
                         <span class="ability-save" title="Total">{{numberFormat ability.total decimals=0 sign=true}}</span>
                     </div>
-                </li>
-            {{/each}}
-            </ul>
-
-
-            {{!-- other stats --}}
-            <ul class="skills-list">
-                {{#each data.stats as |stat s|}}
-                <li class="skill flexrow proficient" data-skill="{{s}}">
-                    <input type="hidden" name="data.stats.{{s}}.value" value="{{stat.value}}" data-dtype="Number" />
-                    <a class="proficiency-toggle skill-proficiency" title="{{stat.hover}}">{{{stat.icon}}}</a>
-                    <h4 class="skill-name {{#if stat.rollable}}rollable{{/if}}">{{stat.label}}</h4>
-                    <span class="skill-mod">{{stat.value}}</span>
                 </li>
                 {{/each}}
             </ul>
 
+            <ul class="ability-scores flexrow">
+                {{#each data.primaryStats as |ability id|}}
+                <li class="ability {{#if ability.proficient}}proficient{{/if}}" data-ability="{{id}}">
+                    <h4 class="ability-name box-title rollable" title="Bonus: {{ability.bonus}}">{{ability.label}}</h4>
+                    {{#if ability.override}}
+                    <input class="ability-score" name="data.primaryStats.{{id}}.value" type="text" value="{{ability.value}}" data-dtype="Number" placeholder="10"/>
+
+                    {{ else }}
+                    <span class="ability-score">{{ability.value}}</span>
+                    {{/if}}
+                    <div class="ability-modifiers flexrow">
+                        <span class="ability-mod"
+                            title="modifier">{{numberFormat ability.mod decimals=0 sign=true}}</span>
+                        <span title="Bonus"></span>
+                        <span class="ability-save"
+                            title="total">{{numberFormat ability.total decimals=0 sign=true}}</span>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
 
             <section class="center-pane flexcol">
 

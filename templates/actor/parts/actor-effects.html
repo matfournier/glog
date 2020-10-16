@@ -1,4 +1,21 @@
-<ol class="inventory-list">
+
+{{!-- other stats --}}
+
+<div class="flexrow">
+<ul class="skills-list">
+    {{#each data.stats as |stat s|}}
+    <li class="skill flexrow proficient" data-skill="{{s}}">
+        <input type="hidden" name="data.stats.{{s}}.value" value="{{stat.value}}" data-dtype="Number" />
+        <a class="proficiency-toggle skill-proficiency" title="{{stat.hover}}">{{{stat.icon}}}</a>
+        <h4 class="skill-name {{#if stat.rollable}}rollable{{/if}}">{{stat.label}}</h4>
+        <span class="skill-mod">{{stat.value}}</span>
+    </li>
+    {{/each}}
+</ul>
+
+<section class="center-pane flexcol">
+
+<ol class="inventory-list flexcol" >
     {{#each sections as |section sid|}}
         <li class="inventory-header flexrow">
             <h3 class="item-name flexrow">{{section.label}}</h3>
@@ -65,4 +82,5 @@
         </ol>
     {{/each}}
     </ol>
-    
+    </section>
+</div>

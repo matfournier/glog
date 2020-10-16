@@ -77,45 +77,45 @@ function calculatePrimaryStats(
         eqModMap["rangeAttack"];
 
     // DEF
-    const lowerBoundDef = 10 + encumbrancePenality + Math.max(
-        abilities["dex"].bonus,
-        determinedDefenseFromArmour(armour)
-    ) + eqModMap["def"];
-    primaryStats["def"].value = (lowerBoundDef <= 1) ? 1 : lowerBoundDef;
+    // const lowerBoundDef = 10 + encumbrancePenality + Math.max(
+    //     abilities["dex"].bonus,
+    //     determinedDefenseFromArmour(armour)
+    // ) + eqModMap["def"];
+    // primaryStats["def"].value = (lowerBoundDef <= 1) ? 1 : lowerBoundDef;
 
-    // MV Rating
-    stats["mv"].value = 12 + encumbrancePenality + abilities["dex"].bonus
-       + sthMvArmourPenalty + eqModMap["mv"];
+    // // MV Rating
+    // stats["mv"].value = 12 + encumbrancePenality + abilities["dex"].bonus
+    //    + sthMvArmourPenalty + eqModMap["mv"];
 
     // MOVEMENT
-    if (encumbrancePenality <= -10) {
-        primaryStats["movement"].value = "crawl";
-    } else if (encumbrancePenality <= -6) {
-        primaryStats["movement"].value = "slow";
-    } else {
-        primaryStats["movement"].value = stats["mv"].value + 20; 
-    }
+    // if (encumbrancePenality <= -10) {
+    //     primaryStats["movement"].value = "crawl";
+    // } else if (encumbrancePenality <= -6) {
+    //     primaryStats["movement"].value = "slow";
+    // } else {
+    //     primaryStats["movement"].value = stats["mv"].value + 20; 
+    // }
 
-    if (encumbrancePenality <= -10) {
-        primaryStats["run"].value = "NA";
-    } else if (encumbrancePenality <= -6) {
-        primaryStats["run"].value = "slow";
-    } else {
-        primaryStats["run"].value = stats["mv"].value + 50; 
-    }
+    // if (encumbrancePenality <= -10) {
+    //     primaryStats["run"].value = "NA";
+    // } else if (encumbrancePenality <= -6) {
+    //     primaryStats["run"].value = "slow";
+    // } else {
+    //     primaryStats["run"].value = stats["mv"].value + 50; 
+    // }
 
     // STEALTH
-    const lowerBoundStealth = 5 + abilities["dex"].bonus + encumbrancePenality
-        + sthMvArmourPenalty + eqModMap["sth"];
+    // const lowerBoundStealth = 5 + abilities["dex"].bonus + encumbrancePenality
+    //     + sthMvArmourPenalty + eqModMap["sth"];
 
-    stats["sth"].value = (lowerBoundStealth <= 1) ? 1 : lowerBoundStealth;
+    // stats["sth"].value = (lowerBoundStealth <= 1) ? 1 : lowerBoundStealth;
 
-    // SAVE
-    primaryStats["save"].value = getLevelSaveBonus(level) +
-        abilities["cha"].bonus + eqModMap["save"];
+    // // SAVE
+    // primaryStats["save"].value = getLevelSaveBonus(level) +
+    //     abilities["cha"].bonus + eqModMap["save"];
 
-    // DOC
-    stats["doc"].value = Math.floor(stats["doc"].value + abilities["int"].value / 2);
+    // // DOC
+    // stats["doc"].value = Math.floor(stats["doc"].value + abilities["int"].value / 2);
 
 }
 

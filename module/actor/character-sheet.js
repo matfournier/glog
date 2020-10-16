@@ -22,9 +22,11 @@ export class GlogCharacterSheet extends BaseGlogSheet {
   /** @override */
   getData() {
     const data = super.getData();
-
+    
     data['collectedItems'] = this._collectItems(data);
 
+
+    
     // Stats
     const rollAbleStats = new Set(CONFIG.G.rollableStats);
     for (let [s, stat] of Object.entries(data.actor.data.stats)) {
@@ -34,6 +36,12 @@ export class GlogCharacterSheet extends BaseGlogSheet {
       } else {
         stat.rollable = false;
       }
+
+    }
+
+    for (let [s, stat] of Object.entries(data.actor.data.primaryStats)) {
+      stat.label = CONFIG.G.shortPrimaryStats[s];
+      // stat.bonus = 0;  // makes life easier down the line and will never not be 0.
     }
 
     // Resources
@@ -46,7 +54,7 @@ export class GlogCharacterSheet extends BaseGlogSheet {
       return arr.concat([res]);
     }, []);
 
-    // Resources
+    // Extra Resources
     data["extraResources"] = ["extra1", "extra2", "extra3"].reduce((arr, r) => {
       const res = data.data.resources[r] || {};
       res.name = r;
