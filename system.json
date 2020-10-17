@@ -26,6 +26,6 @@
   "secondaryTokenAttribute": null,
   "url": "https://github.com/matfournier/glog",
   "manifest": "https://raw.githubusercontent.com/matfournier/glog/main/system.json",
-  "download": "",
+  "download": "https://github.com/matfournier/glog/releases/download/release/glog.zip",
   "license": "LICENSE.txt"
 }
