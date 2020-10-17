@@ -1,5 +1,6 @@
 import { G } from "../config.js";
 import BaseGlogSheet from "./base-sheet.js";
+import { GlogActorTweaks } from "../dialog/actor-tweaks.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -21,9 +22,11 @@ export class GlogCharacterSheet extends BaseGlogSheet {
   /** @override */
   getData() {
     const data = super.getData();
-
+    
     data['collectedItems'] = this._collectItems(data);
 
+
+    
     // Stats
     const rollAbleStats = new Set(CONFIG.G.rollableStats);
     for (let [s, stat] of Object.entries(data.actor.data.stats)) {
@@ -33,6 +36,12 @@ export class GlogCharacterSheet extends BaseGlogSheet {
       } else {
         stat.rollable = false;
       }
+
+    }
+
+    for (let [s, stat] of Object.entries(data.actor.data.primaryStats)) {
+      stat.label = CONFIG.G.shortPrimaryStats[s];
+      // stat.bonus = 0;  // makes life easier down the line and will never not be 0.
     }
 
     // Resources
@@ -45,7 +54,7 @@ export class GlogCharacterSheet extends BaseGlogSheet {
       return arr.concat([res]);
     }, []);
 
-    // Resources
+    // Extra Resources
     data["extraResources"] = ["extra1", "extra2", "extra3"].reduce((arr, r) => {
       const res = data.data.resources[r] || {};
       res.name = r;
@@ -180,5 +189,38 @@ export class GlogCharacterSheet extends BaseGlogSheet {
     await this._onSubmit(event);
     return this.actor.longRest();
   }
+
+  /**
+  * Extend and override the sheet header buttons so we can add a 
+  * popup to turn off specific automation things. 
+  * 
+  * @override
+  */
+ _getHeaderButtons() {
+   let buttons = super._getHeaderButtons();
+
+   // Token Configuration
+   const canConfigure = game.user.isGM || this.actor.owner;
+   if (this.options.editable && canConfigure) {
+     buttons = [
+       {
+         label: "tweaks",
+         class: "configure-actor",
+         icon: "fas fa-code",
+         onclick: (ev) => this._onConfigureActor(ev),
+       },
+     ].concat(buttons);
+   }
+   return buttons;
+ }
+
+ _onConfigureActor(event) {
+  event.preventDefault();
+  new GlogActorTweaks(this.actor, {
+    top: this.position.top + 40,
+    left: this.position.left + (this.position.width - 400) / 2,
+  }).render(true);
+}
+
 
 }

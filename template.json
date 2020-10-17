@@ -22,41 +22,74 @@
       "hasStatRow": {
         "abilities": {
           "str": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
           },
           "dex": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
           },
           "con": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
           },
           "int": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
           },
           "wis": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
           },
           "cha": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0,
+            "bonus": 0
           }
         }
       },
       "hasPrimaryStats": {
         "primaryStats": {
+          "meleeAttack": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
+          "rangeAttack": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
+          },
           "def": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0
           },
           "save": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0
           },
           "sth": {
-            "value": 0
+            "value": 0,
+            "mod": 0,
+            "total": 0
           },
-          "movement": {
-            "value": 0
-          },
-          "run": {
-            "value": 0
+          "mv": {
+            "value": 0,
+            "mod": 0,
+            "total": 0
           }
         },
         "stats": {
@@ -110,6 +143,12 @@
           "fatigue": {
             "value": 0,
             "mod": 0
+          },
+          "movement": {
+            "value": 0
+          },
+          "run": {
+            "value": 0
           }
         }
       },

@@ -90,7 +90,9 @@ export function applyBaseAbilityModifiers(abilities, modsMap) {
     for (let [key, ability] of Object.entries(abilities)) {
         ability.mod = modsMap[key];
         ability.total = ability.value + ability.mod;
-        ability.bonus = determineAbilityBonus(ability.total);
+        if(!ability.override) { // if the user has used TWEAKS to avoid calculating bonuses
+            ability.bonus = determineAbilityBonus(ability.total);
+        }
     }
 }
 

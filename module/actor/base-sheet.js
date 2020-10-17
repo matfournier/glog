@@ -131,11 +131,6 @@ export default class BaseGlogSheet extends ActorSheet {
         super.activateListeners(html);
 
         if (this.isEditable) {
-            // Input focus and update
-            const inputs = html.find("input");
-            inputs.focus(ev => ev.currentTarget.select());
-            inputs.addBack().find('[data-dtype="Number"]').change(this._onChangeInputDelta.bind(this));
-
             // Item summaries
             html.find('.item .item-name h4').click(event => this._onItemSummary(event));
 
@@ -206,23 +201,6 @@ export default class BaseGlogSheet extends ActorSheet {
     }
 
     /**
-     * Handle input changes to numeric form fields, allowing them to accept delta-typed inputs
-     * @param event
-     * @private
-     */
-    _onChangeInputDelta(event) {
-        const input = event.target;
-        const value = input.value;
-        if (["+", "-"].includes(value[0])) {
-            let delta = parseFloat(value);
-            input.value = getProperty(this.actor.data, input.name) + delta;
-        } else if (value[0] === "=") {
-            input.value = value.slice(1);
-        }
-    }
-
-
-    /**
      * Handle toggling the state of an Owned Item within the Actor
      * @param {Event} event   The triggering click event
      * @private
@@ -249,8 +227,16 @@ export default class BaseGlogSheet extends ActorSheet {
             type: type,
             data: duplicate(header.dataset)
         };
+        if (G.icons.hasOwnProperty(type)) {
+            itemData['img'] = G.icons[type].icon
+        };
+
         delete itemData.data["type"];
         return this.actor.createOwnedItem(itemData);
+    }
+
+    _getIconForType(type) {
+
     }
 
     /**

@@ -1,4 +1,5 @@
 import { G } from "../config.js";
+import { rollAbilityConfig } from "../roll/roll.js";
 
 export function calculateAttributes(data, items, equippedModSummary) {
     determineDerivedStats(data, items, equippedModSummary);
@@ -7,6 +8,9 @@ export function calculateAttributes(data, items, equippedModSummary) {
 function determineDerivedStats(data, items, eqModMap) {
     const abilities = data.abilities;
     const level = data.level;
+    const uconfig = data.uconfig;
+    const primaryStats = data.primaryStats
+    const aux = data.aux;
     const stats = data.stats;
 
     const armour = items.filter(item => item.type === "equipment" &&
@@ -17,13 +21,14 @@ function determineDerivedStats(data, items, eqModMap) {
     const encumbrancePenality = Math.round(determineEncumbrancePenalty(data.slots, eqModMap['er']));
 
     // use the summarized effects as the baseline for the values
+    // this is needed for rolling and other things but is in a shit place codewise
+
     initStatsFromModifiers(stats, eqModMap);
 
     //specific overrides for primary stats based on many rats on a stick
-    const primaryStats = data.primaryStats;
     calculatePrimaryStats(
         primaryStats,
-        stats,
+        uconfig,
         level,
         armour,
         abilities,
@@ -31,6 +36,27 @@ function determineDerivedStats(data, items, eqModMap) {
         encumbrancePenality,
         sthMvArmourPenalty
     );
+
+    // calculate movement 
+
+    if (encumbrancePenality <= -10) {
+        aux["movement"].value = "crawl";
+    } else if (encumbrancePenality <= -6) {
+        aux["movement"].value = "slow";
+    } else {
+        aux["movement"].value = primaryStats["mv"].value + 20; 
+    };
+
+    if (encumbrancePenality <= -10) {
+        aux["run"].value = "NA";
+    } else if (encumbrancePenality <= -6) {
+        aux["run"].value = "slow";
+    } else {
+        aux["run"].value = primaryStats["mv"].value + 50; 
+    };
+
+    // doctoring 
+    stats["doc"].value = Math.floor(eqModMap["doc"] + abilities["int"].value / 2);
 }
 
 /** Initialize stats from the eqModMap 
@@ -43,9 +69,12 @@ function initStatsFromModifiers(stats, eqModMap) {
     });
 
     const fixProp = p => {
+        if (stats[p].value >= 1) {
+            stats[p].value = stats[p].value + 1
+        };
         if (stats[p].value < 1) {
             stats[p].value = 1;
-        }
+        };
     };
     const propsOfOne = ["meleeCritRange", "rangeCritRange", "rangeDecayMod"];
     for (let p of propsOfOne) {
@@ -55,7 +84,7 @@ function initStatsFromModifiers(stats, eqModMap) {
 
 function calculatePrimaryStats(
     primaryStats,
-    stats,
+    uconfig,
     level, 
     armour,
     abilities,
@@ -64,60 +93,68 @@ function calculatePrimaryStats(
     sthMvArmourPenalty,
     ) {
 
-   
+    const calcTotal = stat => {
+        return primaryStats[stat].total = primaryStats[stat].value + primaryStats[stat].mod;
+    }
+
+    const getEquippedModifier = stat => {
+        return primaryStats[stat].mod = eqModMap[stat];
+    }
     // Attack values
     // Note: weapon specific values that modify this are handled during 
     // rolling
     // this only includes the "globally applied" values 
+    if(!uconfig.attack) {
+        const baseAttackValue = determineAttackFromLevel(level);
+        primaryStats["meleeAttack"].value = baseAttackValue;
+        primaryStats["rangeAttack"].value = baseAttackValue;
+    }
+    primaryStats["meleeAttack"].mod = eqModMap["meleeAttack"];
+    primaryStats["rangeAttack"].mod = eqModMap["rangeAttack"];
+    calcTotal("meleeAttack");
+    calcTotal("rangeAttack");
     
-    const baseAttackValue = determineAttackFromLevel(level)
-    stats["meleeAttack"].value = baseAttackValue +
-        eqModMap["meleeAttack"];
-    stats["rangeAttack"].value = baseAttackValue +
-        eqModMap["rangeAttack"];
-
     // DEF
+    
+    if(!uconfig.def) {
     const lowerBoundDef = 10 + encumbrancePenality + Math.max(
-        abilities["dex"].bonus,
-        determinedDefenseFromArmour(armour)
-    ) + eqModMap["def"];
+            abilities["dex"].bonus,
+            determinedDefenseFromArmour(armour)
+         );
     primaryStats["def"].value = (lowerBoundDef <= 1) ? 1 : lowerBoundDef;
+    };
+    getEquippedModifier("def");
+    calcTotal("def");
 
-    // MV Rating
-    stats["mv"].value = 12 + encumbrancePenality + abilities["dex"].bonus
-       + sthMvArmourPenalty + eqModMap["mv"];
-
-    // MOVEMENT
-    if (encumbrancePenality <= -10) {
-        primaryStats["movement"].value = "crawl";
-    } else if (encumbrancePenality <= -6) {
-        primaryStats["movement"].value = "slow";
-    } else {
-        primaryStats["movement"].value = stats["mv"].value + 20; 
-    }
-
-    if (encumbrancePenality <= -10) {
-        primaryStats["run"].value = "NA";
-    } else if (encumbrancePenality <= -6) {
-        primaryStats["run"].value = "slow";
-    } else {
-        primaryStats["run"].value = stats["mv"].value + 50; 
-    }
+    // MV 
+    if(!uconfig.mv) {
+        primaryStats["mv"].value = 12 + encumbrancePenality + abilities["dex"].bonus
+            + sthMvArmourPenalty;
+    };
+    getEquippedModifier("mv");
+    calcTotal("mv");
 
     // STEALTH
-    const lowerBoundStealth = 5 + abilities["dex"].bonus + encumbrancePenality
-        + sthMvArmourPenalty + eqModMap["sth"];
-
-    stats["sth"].value = (lowerBoundStealth <= 1) ? 1 : lowerBoundStealth;
+    
+    if(!uconfig.sth) {
+        const lowerBoundStealth = 5 + abilities["dex"].bonus + encumbrancePenality
+        + sthMvArmourPenalty 
+        primaryStats["sth"].value = (lowerBoundStealth <= 1) ? 1 : lowerBoundStealth;
+    };
+    getEquippedModifier("sth");
+    calcTotal("sth");
 
     // SAVE
-    primaryStats["save"].value = getLevelSaveBonus(level) +
-        abilities["cha"].bonus + eqModMap["save"];
 
-    // DOC
-    stats["doc"].value = Math.floor(stats["doc"].value + abilities["int"].value / 2);
+    if(!uconfig.save) {
+    primaryStats["save"].value = getLevelSaveBonus(level) +
+        abilities["cha"].bonus
+    };
+    getEquippedModifier("save");
+    calcTotal("save");
 
 }
+
 
 const determinedDefenseFromArmour = armour => {
   return armour.reduce(function(acc, elem) {

@@ -71,8 +71,8 @@ G.stats = {
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier",
-    "invSlow": "Slow Slot Modifier",
+    "invQuick": "Quick Slot Modifier (not impl)",
+    "invSlow": "Slow Slot Modifier (not impl)",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -81,7 +81,22 @@ G.stats = {
     "rangeDistanceMod": "Range Distance Modifier",
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
-    "fatigueMod": "Fatigue Modifier"
+    "fatigueMod": "Fatigue Modifier",
+    "maxHPMod": "Max HP Modifier (not impl)"
+};
+
+G.configStats = {
+    "str" : "Str",
+    "dex": "Dex",
+    "con": "Con",
+    "int": "Int",
+    "wis": "Wis",
+    "cha": "Cha",
+    "def": "Def",
+    "mv": "Move Rating",
+    "sth": "Stealth",
+    "save": "Save",
+    "attack": "Attack Ratings"
 };
 
 G.npcStats = {
@@ -91,8 +106,8 @@ G.npcStats = {
     "mv": "MV",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier",
-    "invSlow": "Slow Slot Modifier",
+    "invQuick": "Quick Slot Modifier (not impl)",
+    "invSlow": "Slow Slot Modifier (not impl)",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -101,7 +116,8 @@ G.npcStats = {
     "rangeDistanceMod": "Range Distance Modifier",
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
-    "fatigueMod": "Fatigue Modifier"
+    "fatigueMod": "Fatigue Modifier",
+    "maxHPMod": "Max HP Modifier (not impl)"
 }
 
 G.allStats = {...G.abilities, ...G.stats};
@@ -110,8 +126,8 @@ G.modifiers = {...G.abilities, ...{
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier",
-    "invSlow": "Slow Slot Modifier",
+    "invQuick": "Quick Slot Modifier (not impl)",
+    "invSlow": "Slow Slot Modifier (not impl)",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -122,12 +138,22 @@ G.modifiers = {...G.abilities, ...{
     "rangeDistanceMod": "Range Distance Modifier",
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
-    "fatigueMod": "Fatigue Modifier"
+    "fatigueMod": "Fatigue Modifier",
+    "maxHPMod": "Max HP Modifier (not impl)"
 }}
 
 G.aux = {
     "fatigue": "Fatigue"
 };
+
+G.shortPrimaryStats = {
+    "def": "Defense",
+    "meleeAttack": "Melee Attack",
+    "rangeAttack": "Range Attack",
+    "mv": "Move Rating",
+    "sth": "Stealth",
+    "save": "Save Score",
+}
 
 
 G.statBonusTypes = {
@@ -389,4 +415,31 @@ G.spellActionTypes = {
 G.statModTypes = {
     "auto": "auto",
     "manual": "manual"
+};
+
+G.icons = {
+    "class": {
+        icon: "systems/glog/ui/icons/class.svg"
+    },
+    "race": {
+        icon: "systems/glog/ui/icons/race.svg"
+    },
+    "skill": {
+        icon: "systems/glog/ui/icons/skill.svg"
+    },
+    "consumable": {
+        icon: "systems/glog/ui/icons/torch.svg"
+    },
+    "weapon": {
+        icon: "systems/glog/ui/icons/weapon/sword.svg"
+    },
+    "spell": {
+        icon: "systems/glog/ui/icons/spell.svg"
+    },
+    "loot": {
+        icon: "systems/glog/ui/icons/loot.svg"
+    },
+    "equipment": {
+        icon: "systems/glog/ui/icons/equipment/leather.svg"
+    }
 };

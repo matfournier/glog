@@ -62,6 +62,51 @@ export class GlogActor extends Actor {
    */
   _prepareCharacterData(actorData) {
     const data = actorData.data;
+
+    /**
+     * TODO need to clean these up but for now, on the template.json file 
+     * abilities -> str, dex, con, int 
+     * stats -> these are all modifiers, not actually statistics themselves 
+     *   (( this is poorly named but avoiding the refactoring for now ))
+     * aux -> Just fatigue, this is a stupid name 
+     * 
+     * primaryStats ->  derived stats we care about that have modifiers or 
+     *        are rollable 
+     *        examples: meleeAttack (modified by stat.meleeAttack) 
+     *                  def (modified by stat.modified) 
+     * 
+     * These are toggable via the TWEAKS section of the character sheet 
+     * to turn on/off auto calculating vs. entering them
+     * 
+     */
+
+
+    /** Handle override tweak settings ***************************/
+    let uconfig = {}
+    if (data.hasOwnProperty("uconfig")) {
+      uconfig = data.uconfig
+    } else {
+      for (let [s, stat] of Object.entries(CONFIG.G.configStats)) {
+        uconfig[s] = false;
+      }
+      data['uconfig'] = uconfig;
+    };
+
+    for (let [s, stat] of Object.entries(CONFIG.G.abilities)) {
+      data.abilities[s].override = uconfig[s];
+    }
+
+    for (let [s, stat] of Object.entries(data.primaryStats)) {
+      if(s === "meleeAttack" || s === "rangeAttack") {
+        data.primaryStats[s].override = uconfig["attack"];
+      } else {
+      data.primaryStats[s].override = uconfig[s];
+      }
+    }
+
+   /************************************************************** */
+
+
     // collect the statMods up front as this is used in several places
     const relevantStatMods = collectStatMods(actorData.items, G);
     const equippedModSummary = summarizeMods(
@@ -84,7 +129,7 @@ export class GlogActor extends Actor {
     applyBaseAbilityModifiers(data.abilities, equippedModSummary);
     this._determineSlotLimits(data, actorData.items, equippedModSummary["fatigueMod"]);
     calculateAttributes(data, actorData.items, equippedModSummary);
-    data["allStats"] = { ...data.abilities, ...data.primaryStats, ...data.stats }
+    data["allStats"] = { ...data.abilities, ...data.stats, ...data.primaryStats }
     for (let [a, abl] of Object.entries(data["allStats"])) {
       if (!abl.hasOwnProperty("total")) {
         abl.total = abl.value
@@ -93,6 +138,7 @@ export class GlogActor extends Actor {
 
   }
 
+  // TODO need to handle invQuick and invSlow 
   _determineSlotLimits(data, items, fatigueMod) {
     const fatigue = data.aux.fatigue.value + fatigueMod;
     const slots = data.slots;
