@@ -71,8 +71,8 @@ G.stats = {
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier (not impl)",
-    "invSlow": "Slow Slot Modifier (not impl)",
+    "invQuick": "Quick Slot Modifier",
+    "invSlow": "Slow Slot Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -82,7 +82,6 @@ G.stats = {
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
     "fatigueMod": "Fatigue Modifier",
-    "maxHPMod": "Max HP Modifier (not impl)"
 };
 
 G.configStats = {
@@ -106,8 +105,8 @@ G.npcStats = {
     "mv": "MV",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier (not impl)",
-    "invSlow": "Slow Slot Modifier (not impl)",
+    "invQuick": "Quick Slot Modifier",
+    "invSlow": "Slow Slot Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -117,7 +116,6 @@ G.npcStats = {
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
     "fatigueMod": "Fatigue Modifier",
-    "maxHPMod": "Max HP Modifier (not impl)"
 }
 
 G.allStats = {...G.abilities, ...G.stats};
@@ -126,8 +124,8 @@ G.modifiers = {...G.abilities, ...{
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "invQuick": "Quick Slot Modifier (not impl)",
-    "invSlow": "Slow Slot Modifier (not impl)",
+    "invQuick": "Quick Slot Modifier",
+    "invSlow": "Slow Slot Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -139,7 +137,6 @@ G.modifiers = {...G.abilities, ...{
     "rangeDecayMod": "Range Decay Modifier",
     "er": "Encumbrance Modifier",
     "fatigueMod": "Fatigue Modifier",
-    "maxHPMod": "Max HP Modifier (not impl)"
 }}
 
 G.aux = {
