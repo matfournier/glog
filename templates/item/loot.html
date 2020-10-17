@@ -22,8 +22,31 @@
         </div>
     </header>
 
+
+    {{!-- Item Sheet Navigation --}}
+    <nav class="sheet-navigation tabs" data-group="primary">
+        <a class="item active" data-tab="description">Description</a>
+        <a class="item" data-tab="details">Details</a>
+    </nav>
+
     {{!-- Item Sheet Body --}}
     <section class="sheet-body">
         {{> "systems/glog/templates/item/parts/item-description.html"}}
+
+        {{!-- Details Tab --}}
+        <div class="tab details" data-group="primary" data-tab="details">
+            <h3 class="form-header">Loot Details</h3>
+
+            {{!-- Loot Status --}}
+            <div class="form-group stacked">
+                <label>LootStatus</label>
+                <div class="form-fields">
+                    <label class="checkbox">
+                        <input type="checkbox" name="data.quickslot" {{checked data.quickslot}}/>Quick Slot (Equipped)
+                    </label>
+                </div>
+            </div>
+        </div>
+
     </section>
 </form>

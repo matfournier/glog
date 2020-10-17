@@ -121,7 +121,6 @@ export class GlogActor extends Actor {
      * Figure out the base ability modifiers
      * Apply calculate total fatigue + apply it
      * Figure out # of slots (remember the inventory slot modifier)
-     *   TODO: add a slow slot modifier and a quick slot moddifier
      * Figure out encumbrance
      * Figure out the remaining derived stats
      * 
@@ -138,13 +137,16 @@ export class GlogActor extends Actor {
 
   }
 
-  // TODO need to handle invQuick and invSlow 
   _determineSlotLimits(data, items, fatigueMod) {
+    const stats = data.stats;
+    const invQuickMod = data['equippedModSummary'].invQuick;
+    const invSlowMod = data['equippedModSummary'].invSlow;
+
     const fatigue = data.aux.fatigue.value + fatigueMod;
     const slots = data.slots;
     const totalAllowed = data.abilities["str"].total - fatigue;
-    const quickSlotsAllowed = (totalAllowed <= 3) ? totalAllowed : 3;
-    const regularAllowed = totalAllowed - quickSlotsAllowed;
+    const quickSlotsAllowed = (totalAllowed <= 3 + invQuickMod) ? totalAllowed : 3 + invQuickMod;
+    const regularAllowed = totalAllowed - quickSlotsAllowed + invSlowMod;
 
     const weighted = items.filter(item => item.data.hasOwnProperty("slots"));
     let quick = 0.0;
@@ -152,7 +154,7 @@ export class GlogActor extends Actor {
 
     for (let item of weighted) {
       if (item.data.slots !== 0.0) {
-        if (item.data.equipped) {
+        if (item.data.quickslot) {
           quick = quick + (item.data.quantity * item.data.slots);
         }
         else {

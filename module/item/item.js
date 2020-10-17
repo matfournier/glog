@@ -16,6 +16,11 @@ export class GlogItem extends Item {
         const itemData = this.data;
         const actorData = this.actor ? this.actor.data : {};
         const data = itemData.data;
+        if (data.hasOwnProperty("quickslot")) {
+            if(data.quickslot) {
+                data.equipped = true;
+            }
+        };
 
     }
 

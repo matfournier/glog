@@ -347,7 +347,8 @@
         "cost": ""
       },
       "worn": {
-        "equipped": false
+        "equipped": false,
+        "quickslot": false
       },
       "activatedEffect": {
         "activation": {
@@ -485,7 +486,8 @@
         "activatedEffect",
         "action",
         "itemDescription",
-        "affectsStats"
+        "affectsStats",
+        "worn"
       ],
       "consumableType": "light"
     },
@@ -495,7 +497,9 @@
         "hasWeight",
         "hasCost",
         "itemDescription"
-      ]
+      ],
+      "equipped": true,
+      "quickslot": false
     },
     "effect": {
       "templates": [
