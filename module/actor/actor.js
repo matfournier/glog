@@ -152,7 +152,7 @@ export class GlogActor extends Actor {
 
     for (let item of weighted) {
       if (item.data.slots !== 0.0) {
-        if (item.data.equipped) {
+        if (item.data.quickslot) {
           quick = quick + (item.data.quantity * item.data.slots);
         }
         else {
