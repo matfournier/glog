@@ -416,3 +416,30 @@ G.statModTypes = {
     "auto": "auto",
     "manual": "manual"
 };
+
+G.icons = {
+    "class": {
+        icon: "systems/glog/ui/icons/class.svg"
+    },
+    "race": {
+        icon: "systems/glog/ui/icons/race.svg"
+    },
+    "skill": {
+        icon: "systems/glog/ui/icons/skill.svg"
+    },
+    "consumable": {
+        icon: "systems/glog/ui/icons/torch.svg"
+    },
+    "weapon": {
+        icon: "systems/glog/ui/icons/weapon/sword.svg"
+    },
+    "spell": {
+        icon: "systems/glog/ui/icons/spell.svg"
+    },
+    "loot": {
+        icon: "systems/glog/ui/icons/loot.svg"
+    },
+    "equipment": {
+        icon: "systems/glog/ui/icons/equipment/leather.svg"
+    }
+};

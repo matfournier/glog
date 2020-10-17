@@ -18,6 +18,8 @@ The implementation (this repository) is licensed under GPL 3.  Primarily based
 on the mechanics of the [Glog Hack by Skerples](https://coinsandscrolls.blogspot.com/2019/10/osr-glog-based-homebrew-v2-many-rats-on.html) which is licensed under
 [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
+Some default icons courtesy of [Game Icons](https://game-icons.net/) which are CC-BY 3.0 licensed.
+
 ## Goals
 
 1. To make Many Rats on a Stick playable in FoundryVTT 
@@ -69,7 +71,7 @@ your slot-weight per coin however you want.
     - this is required even for Many Rats on a Stick e.g. how the Sorceror works with regards to Saves.
     - this will let people put in alternative stat ceilings, bonus curves, and more flexible characters 
     at the expense of (locally) lost automation
-    - *IN PROGRESS*
+    - **DONE!**
 - Write a guide.  The sheets are actually kind of complicated at first glance but they are surprisingly functional.  I can enter a class from GLOG in <2 minutes for the most part. 
 - Implement config options to change between Many Rats on a Stick-style rolling and Lair of the Lamb-style rolling 
 - Link spells to their mishap/doom tables so they can be rolled on from the character sheet 

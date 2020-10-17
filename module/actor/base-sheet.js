@@ -227,8 +227,16 @@ export default class BaseGlogSheet extends ActorSheet {
             type: type,
             data: duplicate(header.dataset)
         };
+        if (G.icons.hasOwnProperty(type)) {
+            itemData['img'] = G.icons[type].icon
+        };
+
         delete itemData.data["type"];
         return this.actor.createOwnedItem(itemData);
+    }
+
+    _getIconForType(type) {
+
     }
 
     /**

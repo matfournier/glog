@@ -1,24 +1,17 @@
 <form autocomplete="off">
-    <div>MANUALLY INPUT FOR: </div>
+    <div>MANUAL INPUT FOR: </div>
+    <div class="form-group">
+        <label for="attack">Attack Rating</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.attack" id="attack" {{checked
+              data.uconfig.attack }} data-dtype="Boolean" />
+        </div>
+    </div>
     <div class="form-group">
         <label for="def">Defense</label>
         <div class="form-fields">
             <input type="checkbox" name="data.uconfig.def" id="def" {{checked
               data.uconfig.def }} data-dtype="Boolean" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="mv">Move Rating</label>
-        <div class="form-fields">
-            <input type="checkbox" name="data.uconfig.mv" id="mv" {{checked
-              data.uconfig.mv }} data-dtype="Boolean" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="sth">Stealth</label>
-        <div class="form-fields">
-            <input type="checkbox" name="data.uconfig.sth" id="sth" {{checked
-              data.uconfig.sth }} data-dtype="Boolean" />
         </div>
     </div>
     <div class="form-group">
@@ -29,10 +22,17 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="attack">Attack Rating</label>
+        <label for="sth">Stealth</label>
         <div class="form-fields">
-            <input type="checkbox" name="data.uconfig.attack" id="attack" {{checked
-              data.uconfig.attack }} data-dtype="Boolean" />
+            <input type="checkbox" name="data.uconfig.sth" id="sth" {{checked
+              data.uconfig.sth }} data-dtype="Boolean" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mv">Move Rating</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.mv" id="mv" {{checked
+              data.uconfig.mv }} data-dtype="Boolean" />
         </div>
     </div>
 

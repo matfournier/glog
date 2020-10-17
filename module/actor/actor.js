@@ -89,6 +89,7 @@ export class GlogActor extends Actor {
       for (let [s, stat] of Object.entries(CONFIG.G.configStats)) {
         uconfig[s] = false;
       }
+      data['uconfig'] = uconfig;
     };
 
     for (let [s, stat] of Object.entries(CONFIG.G.abilities)) {
@@ -128,15 +129,16 @@ export class GlogActor extends Actor {
     applyBaseAbilityModifiers(data.abilities, equippedModSummary);
     this._determineSlotLimits(data, actorData.items, equippedModSummary["fatigueMod"]);
     calculateAttributes(data, actorData.items, equippedModSummary);
-    data["allStats"] = { ...data.abilities, ...data.primaryStats, ...data.stats }
-    // for (let [a, abl] of Object.entries(data["allStats"])) {
-    //   if (!abl.hasOwnProperty("total")) {
-    //     abl.total = abl.value
-    //   }
-    // };
+    data["allStats"] = { ...data.abilities, ...data.stats, ...data.primaryStats }
+    for (let [a, abl] of Object.entries(data["allStats"])) {
+      if (!abl.hasOwnProperty("total")) {
+        abl.total = abl.value
+      }
+    };
 
   }
 
+  // TODO need to handle invQuick and invSlow 
   _determineSlotLimits(data, items, fatigueMod) {
     const fatigue = data.aux.fatigue.value + fatigueMod;
     const slots = data.slots;

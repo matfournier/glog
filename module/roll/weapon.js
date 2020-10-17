@@ -29,7 +29,7 @@ export function getBasicWeaponAttack(attackStats, weapon, input) {
 
     const proficientMod = (weapon.proficient) ? 0 : -4;
     const effectiveTarget = attackStats.total + (10 - parsedTarget) + targetMod + proficientMod;
-    const critRange = (effectiveTarget <= 0) ? 1 : Math.min(effectiveTarget, (attackStats.crits.value + weapon.critMod));
+    const critRange = (effectiveTarget <= 0) ? 1 : Math.min(effectiveTarget, (attackStats.crits + weapon.critMod));
 
     const flavour = [];
     flavour.push({ text: `${weapon.name} at ${attackStats.total} against ${parsedTarget}` });
