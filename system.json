@@ -2,7 +2,7 @@
   "name": "glog",
   "title": "Glog",
   "description": "The Glog system for FoundryVTT!",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "minimumCoreVersion": "0.7.4",
   "compatibleCoreVersion": "0.7.4",
   "templateVersion": 2,
