@@ -123,11 +123,17 @@
           "meleeCritRange": {
             "value": 1
           },
+          "meleeFumbleRange": {
+            "value": 0
+          },
           "rangeDamage": {
             "value": 0
           },
           "rangeCritRange": {
             "value": 1
+          },
+          "rangeFumbleRange": {
+            "value": 0
           },
           "rangeDistanceMod": {
             "value": 0
@@ -398,7 +404,8 @@
         "damage": "",
         "damageType": "",
         "formula": "",
-        "formulaDamageType": ""
+        "formulaDamageType": "",
+        "casting": ""
       }
     },
     "weapon": {
@@ -447,8 +454,7 @@
       ],
       "type": "cantrip",
       "level": "oneSix",
-      "equipped": true,
-      "casting": ""
+      "equipped": true
     },
     "feat": {
       "templates": [

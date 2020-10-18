@@ -86,6 +86,16 @@ export class GlogItem extends Item {
         }
     }
 
+    getWeaponFumbleModifier(mode) {
+        if (mode === "melee") {
+            return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("meleeFumbleRange")));
+        } else if (mode === "ranged" || mode === "range") {
+            return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("rangeFumbleRange")));
+        } else {
+            0
+        }
+    }
+
     getRangeModifiers() {
         return {
             "decay": S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("rangeDecayMod"))),
@@ -212,7 +222,7 @@ export class GlogItem extends Item {
     getWeaponDamageComponents(isAlternative) {
         const weaponType = (this.type === "weapon") ? this.data.data.weaponType : "na"
         let spellDesc = ""
-        if (this.type === "spell") {
+        if (this.data.data.hasOwnProperty("casting")) {
             spellDesc = this.data.data.casting;
         }
         return {
@@ -226,7 +236,7 @@ export class GlogItem extends Item {
         }
     }
 
-    /** gets parameters for range, duration, consumption */
+    /** gets parameters ffor range, duration, consumption */
     getUsageFormulas() {
         if (this.type === "weapon") {
             return [];

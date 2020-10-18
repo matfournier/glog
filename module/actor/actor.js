@@ -24,6 +24,8 @@ export class GlogActor extends Actor {
 
     const actorData = this.data;
 
+    this._syncVersions(actorData.data);
+
     switch (actorData.type) {
       case "character":
         return this._prepareCharacterData(actorData);
@@ -32,6 +34,16 @@ export class GlogActor extends Actor {
     }
 
   }
+
+  _syncVersions(data) {
+    if(!data.stats.hasOwnProperty("meleeFumbleRange")) {
+      data.stats["meleeFumbleRange"] = {value: 0};
+    }
+    if(!data.stats.hasOwnProperty("rangeFumbleRange")) {
+      data.stats["rangeFumbleRange"] = {value: 0};
+    }
+  }
+
 
   /** @override */
   async createOwnedItem(itemData, options) {
@@ -185,12 +197,14 @@ export class GlogActor extends Actor {
     const atk = (type === "melee") ? "meleeAttack" : "rangeAttack";
     const data = this.data.data;
     const total = data.allStats[atk].total;
-    const crits = (type === "melee") ? data.allStats["meleeCritRange"].value : data.allStats["rangeCritRange"]
+    const crits = (type === "melee") ? data.allStats["meleeCritRange"].value : data.allStats["rangeCritRange"].value
+    const fumbles = (type === "melee") ? data.allStats["meleeFumbleRange"].value : data.allStats["rangeFumbleRange"].value
     const decay = data.allStats["rangeDecayMod"].total
     const distance = data.allStats["rangeDistanceMod"].total
     return {
       "total": total,
       "crits": crits,
+      "fumbles": fumbles,
       "decay": decay,
       "distance": distance
     }
@@ -377,8 +391,6 @@ export class GlogActor extends Actor {
     }
   }
 
-
-
   /** ROLLING WEAPON ATTACK  ********************************************************* */
 
   rollWeaponDialogue(item, weaponType) {
@@ -390,6 +402,7 @@ export class GlogActor extends Actor {
         "name": item.name,
         "weaponMod": item.getWeaponModifier(weaponType),
         "critMod": item.getWeaponCritModifier(weaponType),
+        "fumbleMod": item.getWeaponFumbleModifier(weaponType),
         "rangeMod": item.getRangeModifiers(),
         "distance": item.getWeaponDistance(),
         "proficient": proficient

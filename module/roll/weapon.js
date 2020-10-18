@@ -30,6 +30,7 @@ export function getBasicWeaponAttack(attackStats, weapon, input) {
     const proficientMod = (weapon.proficient) ? 0 : -4;
     const effectiveTarget = attackStats.total + (10 - parsedTarget) + targetMod + proficientMod;
     const critRange = (effectiveTarget <= 0) ? 1 : Math.min(effectiveTarget, (attackStats.crits + weapon.critMod));
+    const fumbleRange = 20 - (+(attackStats.fumbles) + (+weapon.fumbleMod));
 
     const flavour = [];
     flavour.push({ text: `${weapon.name} at ${attackStats.total} against ${parsedTarget}` });
@@ -59,7 +60,7 @@ export function getBasicWeaponAttack(attackStats, weapon, input) {
             },
             "fumble": {
                 "can": true,
-                "on": 20,
+                "on": fumbleRange,
                 "text": "FUMBLE!"
             },
             "extra": extras
@@ -117,29 +118,6 @@ function rangedAttackPenalty(attackStats, rangeModifiers, weaponDistance, target
     }
 }
 
-/** Damage / Effects */
-
-export function applyEffects(itemDamage, dieMods, usage, input) {
-    // if (itemDamage.formulas.length >= 1) {
-    //    return applyDamage(itemDamage, dieMods, usage, input);
-    // } else {
-    //     if (usage.length >= 1) {
-    //        return  applyJustEffects(itemDamage, usage, input);
-    //     } else {
-    //         return S.Nothing;
-    //     }
-    // }
-    if (itemDamage.formulas.type === "dice") {
-        return applyDamage(itemDamage, dieMods, usage, input)
-    } else {
-        console.log("TODO");
-    }
-}
-
-// what about getting the parts from `usage` into the flavour? 
-// will need a usageComponent or something. 
-// need to handle itemDamage.damageMod 
-
 export function applyDamage(itemDamage, dieMods, usage, input) {
     const dieModParts = dieModsParts(dieMods);
     const situationModParts = simpleParts(input.situationMod, "Situation modifier");
@@ -165,7 +143,8 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas))
+                "extra": extras.concat(simpleUsageDetails(usage.formulas)),
+                "usage": getSpellDescription(itemDamage)
             }
         }
         return result;
@@ -186,7 +165,8 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas))
+                "extra": extras.concat(simpleUsageDetails(usage.formulas)),
+                "usage": getSpellDescription(itemDamage)
             }
         }
         return result;
@@ -207,7 +187,8 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas).concat(getSpellDescription(itemDamage)))
+                "extra": extras.concat(simpleUsageDetails(usage.formulas)),
+                "usage": getSpellDescription(itemDamage)
             }
         }
         return result;
@@ -232,12 +213,12 @@ export function simpleUsageDetails(usage) {
 function getSpellDescription(itemDamage) {
     if (itemDamage.hasOwnProperty("casting")) {
         if (itemDamage.casting) {
-            return ([{ "text": `usage: ${itemDamage.casting}` }]);
+            return `usage: ${itemDamage.casting}`;
         } else {
-            return [];
+            return "";
         }
     } else {
-        return [];
+        return "";
     }
 }
 
@@ -261,73 +242,6 @@ function getDamageType(itemDamage) {
     return res;
 }
 
-
-// const nd = input.nd;
-// if (damageFormula.hasMD) {
-//     const effectiveFormula =
-//         damageFormula.formula + dieModParts + situationModParts + itemDamageModParts;
-//     const flavour = `<p>Hits with ${itemDamage.name} for </p>`
-//     const formula = `${nd}$6`
-//     const rollResultFunction = (dice) => {
-//         const res = spells.fromDice(dice);
-//         console.log(res)
-//     }
-//     return {
-//         "type": "formula",
-//         "flavour": "flavour",
-//         "formula": "formula",
-//         "diceF": rollResultFunction,
-//     }
-
-// } else if (damageFormula.hasDice) {
-//     const effectiveDamage =
-//         damageFormula.formula + dieModParts + situationModParts + itemDamageModParts;
-//     const flavour = `<p>Hits with ${itemDamage.name} for </p>`
-//     const rollResultFunction = (dice) => {
-//         const total = dice.total;
-//         return `<h2>${total} damage</h2>`
-//     }
-//     return {
-//         "type": "dice",
-//         "flavour": flavour,
-//         "formula": effectiveDamage,
-//         "diceF": rollResultFunction
-//     }
-// } else {
-//     // apply flat damage. 
-//     const formulaPart = itemDamage.formulas.reduce((acc, formula) => {
-//         return acc + (+formula.formula)
-//     }, 0)
-//     const damage = formulaPart + dieMods.global + dieMods.bonus + input.situationMod + itemDamage.damageMod
-//     const flavour = `<p>Hits with ${itemDamage.name} for <h4>${damage} damage</h4></p>`;
-//     return {
-//         "type": "flat",
-//         "flavour": flavour
-//     }
-// }
-
-
-/** get diceMode */
-// function generateDamageFormula(formulas) {
-//     return (formulas.reduce((acc, formula) => {
-//         if (formula.type === "formula") {
-//             acc.hasMD = true;
-//         } else if (formula.type === "dice") {
-//             acc.hasDice = true;
-//         }
-//         if (acc.formula) {
-//             acc.formula = acc.formula + ` + ${formula.formula}`
-//         } else {
-//             acc.formula = `${formula.formula}`
-//         }
-//         return acc;
-//     }, {
-//         "hasMD": false,
-//         "hasDice": false,
-//         "formula": []
-//     })
-//     )
-// }
 
 function dieModsParts(dieMods) {
     const res = [];

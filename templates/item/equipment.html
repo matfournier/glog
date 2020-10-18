@@ -28,6 +28,7 @@
     {{!-- Item Sheet Navigation --}}
     <nav class="sheet-navigation tabs" data-group="primary">
         <a class="item active" data-tab="description">Description</a>
+        <a class="item active" data-tab="casting">Effect Text</a>
         <a class="item" data-tab="details">Details</a>
     </nav>
 
@@ -84,6 +85,12 @@
             </h3>   
             {{> "systems/glog/templates/item/parts/item-stats.html"}}
             <h3></h3>
+        </div>
+
+        <div class="tab details" data-group="primary" data-tab="casting">
+            <textarea type="text" rows="8" cols="250"
+                name="data.casting">{{data.casting}}
+            </textarea>
         </div>
     </section>
 </form>
