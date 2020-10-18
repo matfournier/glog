@@ -200,7 +200,7 @@ export class GlogActor extends Actor {
     const data = this.data.data;
     let global = 0
     // otherwise you are a spell.
-    if (type === "melee" || type == "ranged") {
+    if (type === "melee" || type == "ranged" || type === "range") {
       const atk = (type === "melee") ? "meleeDamage" : "rangeDamage";
       global = data.allStats[atk].value;
     }
@@ -328,8 +328,6 @@ export class GlogActor extends Actor {
 
   rollEquipment(item) {
 
-    const blah = item.getWeaponDamageComponents(true);
-
     this.getModesDisplayDialogue(item);
   }
 
@@ -357,7 +355,7 @@ export class GlogActor extends Actor {
       return {
         attack: {
           "label": `${mode.subType} ${mode.type}`,
-          callback: () => this.rollWeaponDialogue(item)
+          callback: () => this.rollWeaponDialogue(item, mode.subType)
         }
       }
     } else if (mode.type === "effect") {
@@ -382,29 +380,10 @@ export class GlogActor extends Actor {
 
 
   /** ROLLING WEAPON ATTACK  ********************************************************* */
-  rollWeaponDialogueFromHand() {
-    const weaponType = "melee";
-    const config = {
-      "weapon": {
-        "weaponType": weaponType,
-        "name": "[touch/special melee]",
-        "weaponMod": S.Nothing,
-        "critMod": 0,
-        "rangemod": {
-          "decay": 0,
-          "distance": 0
-        },
-        "distance": 0,
-        "proficient": true
-      },
-      "dialogueContent": this.rollWeaponDialogueContent(weaponType),
-      "dialogueParser": html => this.parseWeaponAttackDialogueContent(html)
-    }
-    this.rollAttackDialogue(config);
-  }
 
-  rollWeaponDialogue(item) {
-    const weaponType = item.data.data.weaponType
+  rollWeaponDialogue(item, weaponType) {
+    const data = item.data.data; 
+    const proficient = (data.proficient) ? data.proficient : true;
     const config = {
       "weapon": {
         "weaponType": weaponType,
@@ -413,7 +392,7 @@ export class GlogActor extends Actor {
         "critMod": item.getWeaponCritModifier(weaponType),
         "rangeMod": item.getRangeModifiers(),
         "distance": item.getWeaponDistance(),
-        "proficient": item.data.data.proficient
+        "proficient": proficient
       },
       "dialogueContent": this.rollWeaponDialogueContent(weaponType),
       "dialogueParser": html => this.parseWeaponAttackDialogueContent(html)
@@ -435,7 +414,7 @@ export class GlogActor extends Actor {
         </div>
       </form>`
     }
-    if (weaponType == "ranged") {
+    if (weaponType == "range") {
       return `
       <div class="form-group">
        <label for="range">Range</label>
@@ -538,7 +517,7 @@ export class GlogActor extends Actor {
       }).render(true);
     } else {
       // you are just for effect 
-      console.log("Spell has no formula. Roll by hand if you need anything");
+      console.log("Spell has no formula. Set to [effect] for misc roll.");
     }
   }
 
@@ -603,7 +582,7 @@ export class GlogActor extends Actor {
         user: game.user._id,
         speaker: {actor: this, alias: this.name},
         flavor: flavor,
-        content: `${this.name} has a night's rest. Recovers ${dhp} hp. Consumes 1 ration for the group.`
+        content: `${this.name} has a night's rest. Recovers ${dhp} hp. Consumes 1 ration.`
       })
     };
   }
@@ -624,7 +603,7 @@ export class GlogActor extends Actor {
       newHP = Math.min(data.hp.value + roll.total, data.hp.max);
     }
 
-    const flavor = `${this.name} has a quick 1 hour lunch. Consumes 1 ration for the group.` +
+    const flavor = `${this.name} has a quick 1 hour lunch. Consumes 1 ration..` +
       prefix;
     const updateData = {
       "data.hp.value": newHP

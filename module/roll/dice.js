@@ -150,8 +150,12 @@ export class GlogDice {
     if (res.complications.mishaps > 0) {
       moreExtras.push({ "text": `mishaps: ${res.complications.mishaps}` });
     };
-    if (res.complications.isDoom) {
+    if (res.complications.doom) {
       moreExtras.push({ "text": `DOOM DOOM DOOM DOOM` });
+    };
+
+    if (res.complications.quadruple) {
+      moreExtras.push({ "text": `QUADRUPLE!` });
     };
 
     return {

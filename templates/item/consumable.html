@@ -79,14 +79,12 @@
             {{!-- Item Action Template --}}
             {{> "systems/glog/templates/item/parts/item-action.html" misc=true}}
 
-            {{#if data.ownedByPC}}
             <h3 class="form-header">Self Stat Effects (if any)
                 <label class="checkbox">
                     <input type="checkbox" name="data.statMods.applied" {{checked data.statMods.applied}}/> Applied
                 </label> 
             </h3>   
             {{> "systems/glog/templates/item/parts/item-stats.html"}}
-            {{/if}}
             <h3></h3>
         </div>
     </section>

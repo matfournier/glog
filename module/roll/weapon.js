@@ -207,7 +207,7 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas))
+                "extra": extras.concat(simpleUsageDetails(usage.formulas).concat(getSpellDescription(itemDamage)))
             }
         }
         return result;
@@ -215,28 +215,40 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
 }
 
 export function simpleUsageDetails(usage) {
-   return usage.reduce((acc, use) => {
-        if(use.type === "range") {
-            acc.push({"text": `range: ${use.data.formula} ${use.data.unit}`});
+    return usage.reduce((acc, use) => {
+        if (use.type === "range") {
+            acc.push({ "text": `range: ${use.data.formula} ${use.data.unit}` });
         }
-        if(use.type === "duration") {
-            acc.push({"text": `duration: ${use.data.formula} ${use.data.unit}`});
+        if (use.type === "duration") {
+            acc.push({ "text": `duration: ${use.data.formula} ${use.data.unit}` });
         }
-        if(use.type === "template") {
-            acc.push({"text": `template: ${use.data.formula} ${use.data.unit} ${use.data.targetType}`});
+        if (use.type === "template") {
+            acc.push({ "text": `template: ${use.data.formula} ${use.data.unit} ${use.data.targetType}` });
         }
         return acc;
     }, [])
 }
 
+function getSpellDescription(itemDamage) {
+    if (itemDamage.hasOwnProperty("casting")) {
+        if (itemDamage.casting) {
+            return ([{ "text": `usage: ${itemDamage.casting}` }]);
+        } else {
+            return [];
+        }
+    } else {
+        return [];
+    }
+}
+
 function getTitle(itemDamage) {
     let title = "";
     if (itemDamage.sourceItemType === "weapon") {
-        title = `${itemDamage.name} damage` 
+        title = `${itemDamage.name} damage`
     } else if (itemDamage.sourceItemType === "spell") {
         title = `Casting ${itemDamage.name}`
     } else {
-        title = `Applying ${itemDamage.name}` 
+        title = `Applying ${itemDamage.name}`
     }
     return title;
 }
@@ -244,7 +256,7 @@ function getTitle(itemDamage) {
 function getDamageType(itemDamage) {
     const res = []
     if (itemDamage.damageType) {
-      res.push({"text": `(${itemDamage.damageType}) damage`});
+        res.push({ "text": `(${itemDamage.damageType}) damage` });
     };
     return res;
 }

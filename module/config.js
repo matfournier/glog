@@ -6,7 +6,8 @@ G.spellTypes = {
     "cantrip": "Cantrip",
     "brain": "Brain",
     "spellbook": "Spellbook",
-    "scroll": "Scroll"
+    "scroll": "Scroll",
+    "alternate": "Alternate"
 };
 
 G.skillOrRace = {
@@ -73,6 +74,7 @@ G.stats = {
     "save": "Save",
     "invQuick": "Quick Slot Modifier",
     "invSlow": "Slow Slot Modifier",
+    "initMod": "Iniative Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -107,6 +109,7 @@ G.npcStats = {
     "save": "Save",
     "invQuick": "Quick Slot Modifier",
     "invSlow": "Slow Slot Modifier",
+    "initMod": "Iniative Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -126,6 +129,7 @@ G.modifiers = {...G.abilities, ...{
     "save": "Save",
     "invQuick": "Quick Slot Modifier",
     "invSlow": "Slow Slot Modifier",
+    "initMod": "Iniative Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
@@ -158,7 +162,7 @@ G.statBonusTypes = {
     "globally": "All rolls"
 };
 
-G.rollableStats = ["mv", "sth", "doc"];
+G.rollableStats = ["doc"];
 
 // Creature Sizes
 G.actorSizes = {
@@ -295,6 +299,13 @@ G.weaponProperties = {
     "med": "Medium",
     "hvy": "Heavy",
     "two": "Two-handed",
+    "handhalf": "Hand a half",
+    "lr": "Long range",
+    "mech": "Mechanical",
+    "def": "Defensive",
+    "dev": "Devastating",
+    "pole": "Pole weapon",
+    "throw": "Throwing",
     "amm": "Ammunition",
 };
 

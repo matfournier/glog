@@ -141,7 +141,8 @@ export function isDiceRoll(str) {
 
 export function isFormula(str) {
     return (str.includes("[dice]") || str.includes("[sum]") || str.includes("[highest]") ||
-        str.includes("[best]") || str.includes("[lowest]") || str.includes("[worst]"));
+        str.includes("[best]") || str.includes("[lowest]") || str.includes("[worst]")) ||
+        str.includes("[effect]");
 }
 
 export function getFormulaType(str, unit) {

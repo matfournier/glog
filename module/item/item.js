@@ -58,7 +58,7 @@ export class GlogItem extends Item {
     getWeaponModifier(mode) {
         if (mode === "melee") {
             return this.getLocalStatMods("meleeAttack");
-        } else if (mode === "ranged") {
+        } else if (mode === "ranged" || mode === "range") {
             return this.getLocalStatMods("rangeAttack");
         } else {
             return S.Nothing;
@@ -69,7 +69,7 @@ export class GlogItem extends Item {
     getWeaponDamageModifier(mode) {
         if (mode === "melee") {
             return this.getLocalStatMods("meleeDamage");
-        } else if (mode === "ranged") {
+        } else if (mode === "ranged" || mode === "range") {
             return this.getLocalStatMods("rangeDamage");
         } else {
             return S.Nothing;
@@ -79,7 +79,7 @@ export class GlogItem extends Item {
     getWeaponCritModifier(mode) {
         if (mode === "melee") {
             return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("meleeCritRange")));
-        } else if (mode === "ranged") {
+        } else if (mode === "ranged" || mode === "range") {
             return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("rangeCritRange")));
         } else {
             0
@@ -211,13 +211,18 @@ export class GlogItem extends Item {
 
     getWeaponDamageComponents(isAlternative) {
         const weaponType = (this.type === "weapon") ? this.data.data.weaponType : "na"
+        let spellDesc = ""
+        if (this.type === "spell") {
+            spellDesc = this.data.data.casting;
+        }
         return {
             name: this.name,
             sourceItemType: this.type,
             "damageMod": S.fromMaybe(0)(S.map(v => v.value)(this.getWeaponDamageModifier(weaponType))), // why isn't this just on damage?
             "bonusAtr": this._getBonus(),
             "formulas": (!isAlternative) ? this._getParsedDamageFormula(this._getRegularDamage()) : this._getParsedDamageFormula(this._getAlternativeDamage()),
-            "damageType": (!isAlternative) ? this._getDamageType() : this._getAltDamageType()
+            "damageType": (!isAlternative) ? this._getDamageType() : this._getAltDamageType(),
+            "casting": spellDesc
         }
     }
 

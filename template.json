@@ -137,6 +137,9 @@
           },
           "fatigueMod": {
             "value": 0
+          },
+          "initMod": {
+            "value": 0
           }
         },
         "aux": {
@@ -224,7 +227,7 @@
         "tertiary": {
           "value": 0,
           "max": 0,
-          "title": "Mem. Spells",
+          "title": "Spell Slots",
           "lr": 0,
           "sr": 0
         },
@@ -315,7 +318,6 @@
   },
   "Item": {
     "types": [
-      "item",
       "weapon",
       "equipment",
       "archetype",
@@ -399,16 +401,6 @@
         "formulaDamageType": ""
       }
     },
-    "item": {
-      "templates": [
-        "base",
-        "hasWeight",
-        "hasCost",
-        "activatedEffect",
-        "action",
-        "itemDescription"
-      ]
-    },
     "weapon": {
       "templates": [
         "base",
@@ -455,7 +447,8 @@
       ],
       "type": "cantrip",
       "level": "oneSix",
-      "equipped": "true"
+      "equipped": true,
+      "casting": ""
     },
     "feat": {
       "templates": [

@@ -2,17 +2,57 @@
   "name": "glog",
   "title": "Glog",
   "description": "The Glog system for FoundryVTT!",
-  "version": "0.1.2",
-  "minimumCoreVersion": "0.7.3",
-  "compatibleCoreVersion": "0.7.3",
+  "version": "0.1.3",
+  "minimumCoreVersion": "0.7.4",
+  "compatibleCoreVersion": "0.7.4",
   "templateVersion": 2,
   "author": "MatF",
-  "esmodules": ["module/glog.js"],
-  "styles": ["glog.css"],
+  "esmodules": [
+    "module/glog.js"
+  ],
+  "styles": [
+    "glog.css"
+  ],
   "scripts": [
     "scripts/sanctuary.js"
   ],
-  "packs": [],
+  "packs": [
+    {
+      "name": "weapons",
+      "label": "GLOG-WEAPONS",
+      "system": "glog",
+      "path": "./packs/glog_weapons.db",
+      "entity": "Item"
+    },
+    {
+      "name": "equipment",
+      "label": "GLOG-EQUIPMENT",
+      "system": "glog",
+      "path": "./packs/glog_equipment.db",
+      "entity": "Item"
+    },
+    {
+      "name": "items",
+      "label": "GLOG-ITEMS",
+      "system": "glog",
+      "path": "./packs/glog_items.db",
+      "entity": "Item"
+    },
+    {
+      "name": "spells",
+      "label": "GLOG-SPELLS",
+      "system": "glog",
+      "path": "./packs/glog_spells.db",
+      "entity": "Item"
+    },
+    {
+      "name": "classes",
+      "label": "GLOG-CLASSES",
+      "system": "glog",
+      "path": "./packs/glog_classes.db",
+      "entity": "Actor"
+    }
+  ],
   "languages": [
     {
       "lang": "en",
@@ -20,7 +60,7 @@
       "path": "lang/en.json"
     }
   ],
-  "gridDistance": 10,
+  "gridDistance": 5,
   "gridUnits": "ft",
   "primaryTokenAttribute": "hp",
   "secondaryTokenAttribute": null,

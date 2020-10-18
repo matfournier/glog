@@ -130,6 +130,11 @@ function getComponent(str, termMap) {
             "isOP": false,
             "f": dice => termMap[str]
         })
+    } else if (str === "[effect]") {
+        return S.Just({
+            "isOP": false,
+            "f": dice => termMap[str]
+        })
     } else {
         return (S.map(num => {
             const res = {
@@ -151,7 +156,8 @@ function getTermsMap(roll) {
         "[best]": best,
         "[highest]": best,
         "[worst]": worst,
-        "[lowest]": worst
+        "[lowest]": worst,
+        "[effect]": 0
     };
 }
 
@@ -169,16 +175,19 @@ const noBurn = rolls => 0;
 const spellComplications = rolls => {
     const counts = rolls.reduce((acc, val) => acc.set(val, 1 + (acc.get(val) || 0)), new Map());
     let isDoom = false;
-    var doubles = 0
+    let isQuadruple = false;
+    var doubles = 0;
     for (let value of counts.values()) {
-        if (value >= 3) isDoom = true
+        if (value >= 3) isDoom = true;
+        if (value >= 4) isQuadruple = true;
         if (value % 2 == 0) {
             doubles = doubles + Math.floor(value / 2);
         }
     }
     return ({
         "doom": isDoom,
-        "mishaps": (isDoom) ? 0 : doubles
+        "mishaps": (isDoom) ? 0 : doubles,
+        "quadruple": isQuadruple
     })
 }
 
