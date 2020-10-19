@@ -54,7 +54,6 @@
             </div>
 
  
-            {{#if data.ownedByPC}}
             {{!-- Weapon Status --}}
             <div class="form-group stacked">
                 <label>Weapon Status</label>
@@ -70,7 +69,6 @@
                     </label>
                 </div>
             </div>
-            {{/if}}
 
             {{!-- Weapon Properties --}}
             <div class="form-group stacked weapon-properties">
@@ -92,14 +90,12 @@
             {{!-- Item Activation Template --}}
             {{> "systems/glog/templates/item/parts/item-activation.html"}}
 
-            {{#if data.ownedByPC}}
             <h3 class="form-header">Self Stat Effects (if any)
                 <label class="checkbox">
                     <input type="checkbox" name="data.statMods.applied" {{checked data.statMods.applied}}/> Applied
                 </label> 
             </h3>   
             {{> "systems/glog/templates/item/parts/item-stats.html"}}
-            {{/if}}
 
             <h3></h3>
         </div>

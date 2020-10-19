@@ -6,7 +6,8 @@ G.spellTypes = {
     "cantrip": "Cantrip",
     "brain": "Brain",
     "spellbook": "Spellbook",
-    "scroll": "Scroll"
+    "scroll": "Scroll",
+    "alternate": "Alternate"
 };
 
 G.skillOrRace = {
@@ -17,8 +18,7 @@ G.skillOrRace = {
 G.spellOrder = {
     "cantrip": 1,
     "brain": 2,
-    "spellbook": 3,
-    "scroll": 4
+    "spellbook": 3
 };
 
 G.spellLevels = {
@@ -73,9 +73,12 @@ G.stats = {
     "save": "Save",
     "invQuick": "Quick Slot Modifier",
     "invSlow": "Slow Slot Modifier",
+    "initMod": "Iniative Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
+    "meleeFumbleRange": "Melee Fumble Range",
+    "rangeFumbleRange": "Range Fumble Range",
     "meleeDamage": "Melee Damage Modifier",
     "rangeDamage": "Range Damage Modifier",
     "rangeDistanceMod": "Range Distance Modifier",
@@ -107,9 +110,12 @@ G.npcStats = {
     "save": "Save",
     "invQuick": "Quick Slot Modifier",
     "invSlow": "Slow Slot Modifier",
+    "initMod": "Iniative Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
+    "meleeFumbleRange": "Melee Fumble Range",
+    "rangeFumbleRange": "Range Fumble Range",
     "meleeDamage": "Melee Damage Modifier",
     "rangeDamage": "Range Damage Modifier",
     "rangeDistanceMod": "Range Distance Modifier",
@@ -126,9 +132,12 @@ G.modifiers = {...G.abilities, ...{
     "save": "Save",
     "invQuick": "Quick Slot Modifier",
     "invSlow": "Slow Slot Modifier",
+    "initMod": "Iniative Modifier",
     "doc": "Doctoring Skill",
     "meleeCritRange": "Melee Crit Range",
     "rangeCritRange": "Range Crit Range",
+    "meleeFumbleRange": "Melee Fumble Range",
+    "rangeFumbleRange": "Range Fumble Range",
     "meleeAttack": "Melee Attack Modifier",
     "meleeDamage": "Melee Damage Modifier",
     "rangeAttack": "Range Attack Modifier",
@@ -158,7 +167,7 @@ G.statBonusTypes = {
     "globally": "All rolls"
 };
 
-G.rollableStats = ["mv", "sth", "doc"];
+G.rollableStats = ["doc"];
 
 // Creature Sizes
 G.actorSizes = {
@@ -199,7 +208,9 @@ G.damageTypes = {
     "poison": "Poison",
     "psychic": "Psychic",
     "radiant": "Radiant",
-    "slashing": "Slashing"
+    "slashing": "Slashing",
+    "magic": "Magic",
+    "alien": "Alien"
 };
 
 // Damage Resistance Types
@@ -274,7 +285,8 @@ G.monsterTags = {
     "insect": "Insect",
     "guard": "Guardian",
     "flying": "Flying",
-    "swimming": "Swimming"
+    "swimming": "Swimming",
+    "infra": "Infravision"
 }
 
 /**
@@ -295,6 +307,13 @@ G.weaponProperties = {
     "med": "Medium",
     "hvy": "Heavy",
     "two": "Two-handed",
+    "handhalf": "Hand a half",
+    "lr": "Long range",
+    "mech": "Mechanical",
+    "def": "Defensive",
+    "dev": "Devastating",
+    "pole": "Pole weapon",
+    "throw": "Throwing",
     "amm": "Ammunition",
 };
 
@@ -399,6 +418,11 @@ G.miscActionTypes = {
     "melee": "Melee Attack",
     "ranged": "Range Attack",
     "formula": "Formula/spell/effect"
+};
+
+G.secondaryActionTypes = {
+    "melee": "Melee Attack",
+    "ranged": "Range Attack"
 };
 
 G.weaponActionTypes = {};

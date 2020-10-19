@@ -23,7 +23,7 @@ export const _getInitiativeFormula = function(combatant) {
 
   const parts = [];
   if (actor.data.type === "character") {
-      const wis  = actor.data.data.allStats.wis.total
+      const wis  = actor.data.data.allStats.wis.total + (+actor.data.data.equippedModSummary['initMod']);
       const mv = actor.data.data.allStats.mv.total; // for tiebreaker
       const dex = actor.data.data.allStats.dex.total; // for tiebreak
       parts.push(`1d20ms<=${wis}`);

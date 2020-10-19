@@ -50,9 +50,7 @@ export class GlogItemSheet extends ItemSheet {
     data.isPhysical = data.item.data.hasOwnProperty("slots");
 
     // Action Details
-    // data.hasAttackRoll = this.item.hasAttack;
     data.isHealing = data.item.data.actionType === "heal";
-    // data.isFlatDC = getProperty(data.item.data, "save.scaling") === "flat";
     
     return data;
   }
@@ -122,26 +120,12 @@ export class GlogItemSheet extends ItemSheet {
     else if (item.type === "equipment") {
       props.push(CONFIG.G.equipmentTypes[item.data.type]);
     }
-
-    // TODO POPULATE THIS
-    // else if (item.type === "feat") {
-    //   props.push(labels.featType);
-    // }
-
+ 
     // Action type
     if (item.data.actionType) {
       props.push(CONFIG.G.itemActionTypes[item.data.actionType]);
     }
-
-    // Action usage
-    // if ((item.type !== "weapon" && item.type !== "equipment" ) && item.data.activation && !isObjectEmpty(item.data.activation)) {
-    //   props.push(
-    //     labels.activation,
-    //     labels.range,
-    //     labels.target,
-    //     labels.duration
-    //   )
-    // }
+  
     return props.filter(p => !!p);
   }
 
@@ -159,33 +143,6 @@ export class GlogItemSheet extends ItemSheet {
 
     // Roll handlers, click handlers, etc. would go here.
   }
-
-//   /**
-//  * Add or remove a damage part from the damage formula
-//  * @param {Event} event     The original click event
-//  * @return {Promise}
-//  * @private
-//  */
-//   async _onDamageControl(event) {
-//     event.preventDefault();
-//     const a = event.currentTarget;
-
-//     // Add new damage component
-//     if (a.classList.contains("add-damage")) {
-//       await this._onSubmit(event);  // Submit any unsaved changes
-//       const damage = this.item.data.data.damage;
-//       return this.item.update({ "data.damage.parts": damage.parts.concat([["", ""]]) });
-//     }
-
-//     // Remove a damage component
-//     if (a.classList.contains("delete-damage")) {
-//       await this._onSubmit(event);  // Submit any unsaved changes
-//       const li = a.closest(".damage-part");
-//       const damage = duplicate(this.item.data.data.damage);
-//       damage.parts.splice(Number(li.dataset.damagePart), 1);
-//       return this.item.update({ "data.damage.parts": damage.parts });
-//     }
-//   }
 
   /**
  * Add or remove a stat modification 

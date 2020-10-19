@@ -18,7 +18,7 @@ export const spellFromDice = (formula, dice) => {
     const terms = getTermsMap(rolls)
     const formulaResult = getSpellResult(runDiceFormula(formula, rolls, terms));
     return {
-        "formula": formula,  
+        "formula": formula,
         "rolls": rolls,                      // string
         "result": formulaResult,                  // null or value use 
         "diceToRemove": spellBurn(rolls),           // int 
@@ -130,6 +130,11 @@ function getComponent(str, termMap) {
             "isOP": false,
             "f": dice => termMap[str]
         })
+    } else if (str === "[effect]") {
+        return S.Just({
+            "isOP": false,
+            "f": dice => termMap[str]
+        })
     } else {
         return (S.map(num => {
             const res = {
@@ -151,7 +156,8 @@ function getTermsMap(roll) {
         "[best]": best,
         "[highest]": best,
         "[worst]": worst,
-        "[lowest]": worst
+        "[lowest]": worst,
+        "[effect]": 0
     };
 }
 
@@ -164,23 +170,43 @@ const getSpellResult = res => {
 
 
 const spellBurn = rolls => (S.filter(S.gte(4))(rolls)).length
-const noBurn = rolls => 0; 
+const noBurn = rolls => 0;
 
 const spellComplications = rolls => {
     const counts = rolls.reduce((acc, val) => acc.set(val, 1 + (acc.get(val) || 0)), new Map());
     let isDoom = false;
-    var doubles = 0
+    let isQuadruple = false;
+    var doubles = 0;
     for (let value of counts.values()) {
-        if (value >= 3) isDoom = true
+        if (value >= 3) isDoom = true;
+        if (value >= 4) isQuadruple = true;
         if (value % 2 == 0) {
             doubles = doubles + Math.floor(value / 2);
         }
     }
     return ({
         "doom": isDoom,
-        "mishaps": (isDoom) ? 0 : doubles
+        "mishaps": (isDoom) ? 0 : doubles,
+        "quadruple": isQuadruple
     })
 }
 
 const noSpellComplications = rolls => S.Nothing
+
+export const applyUsageText = (spellRes, text) => {
+    const termMap = spellRes.terms;
+    const sub = subText(termMap, text);
+    return sub;
+};
+
+const subText = (termMap, text) => {
+    if (text) {
+        return Object.keys(termMap).reduce((acc, term) => {
+            acc = acc.replace(term, termMap[term]);
+            return acc;
+        }, text);
+    } else {
+        return ""
+    }
+};
 

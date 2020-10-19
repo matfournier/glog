@@ -107,8 +107,8 @@ export class GlogCharacterSheet extends BaseGlogSheet {
     // Organize items
     for (let i of items) {
       i.data.quantity = i.data.quantity || 1;
-      i.data.slots = i.data.slots || 1;
-      i.totalSlots = i.data.quantity * i.data.slots
+      i.data.slots = i.data.slots || 0;
+      i.totalSlots = (i.data.slots === 0) ? 0 : i.data.quantity * i.data.slots;
       inventory[i.type].items.push(i);
     }
 
@@ -126,17 +126,44 @@ export class GlogCharacterSheet extends BaseGlogSheet {
       
     // organize spellbook
     const spellbook = {
-      spells: { label: "Spells", items: [], hasActions: false, dataset: { type: "spell" }, isPC: true}
+      cantrips: {label: "Cantrips", items: [], hasActions: false, dataset: {type: "spell"}, isPC: true},
+      spells: { label: "Spells", items: [], hasActions: false, dataset: { type: "spell" }, isPC: true},
+      alt: { label: "Alternates", items: [], hasActions: false, dataset: { type: "spell" }, isPC: true},
+      spellbook: { label: "Spellbook", items: [], hasActions: false, dataset: { type: "spell" }, isPC: true}
     };
 
     for (let s of spells) {
       s.order = G.spellOrder[s.data.type];
       s.levelLabel = G.spellLevels[s.data.level];
+      if (s.data.type === "cantrip") {
+        spellbook.cantrips.items.push(s);
+      } else if (s.data.type === "brain") {
+        spellbook.spells.items.push(s);
+      } else if (s.data.type === "alternate") {
+        spellbook.alt.items.push(s);
+      } else {
+        spellbook.spellbook.items.push(s);
+
+      }
     }
 
-    spells.sort((a, b) => a.order - b.order);
+    spellbook.spells.items.sort((a, b) => {
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
+      return 0;
+    })
 
-    spellbook.spells.items = spells;
+    spellbook.spellbook.items.sort((a, b) => {
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
+      return 0;
+    })
+
+    spellbook.alt.items.sort((a, b) => {
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
+      return 0;
+    })
 
     // Assign and return
     data.inventory = Object.values(inventory);

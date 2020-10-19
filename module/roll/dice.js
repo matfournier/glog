@@ -1,4 +1,4 @@
-import { spellFromDice } from "./spell.js";
+import { spellFromDice, applyUsageText } from "./spell.js";
 
 export class GlogDice {
   static async sendAttackRoll({
@@ -103,9 +103,9 @@ export class GlogDice {
         }
       }
       if (data.fumble.can) {
-        if (die === data.fumble.on) {
+        if (die >= data.fumble.on) {
           result.isCriticalFailure = true;
-          result.details = data.failure.text;
+          result.details = data.fumble.text;
           return result
         }
       }
@@ -141,22 +141,34 @@ export class GlogDice {
     };
 
     parts.parts.push(res.result);
+    const effectiveUsage = applyUsageText(res, data.usage)
     const totalDamage = parts.parts.reduce((acc, e) => acc + e, 0);
     const moreExtras = [
       { "text": `rolls: ${res.rolls.join(" ")}` },
       { "text": `formula: (${res.formula}) ${bonusText}` },
       { "text": `diceToRemove: ${res.diceToRemove}` }
     ]
+    if (data.usage) {
+      moreExtras.unshift({"text": `usage: ${effectiveUsage}`});
+    }
     if (res.complications.mishaps > 0) {
       moreExtras.push({ "text": `mishaps: ${res.complications.mishaps}` });
     };
-    if (res.complications.isDoom) {
+    if (res.complications.doom) {
       moreExtras.push({ "text": `DOOM DOOM DOOM DOOM` });
+    };
+
+    if (res.complications.quadruple) {
+      moreExtras.push({ "text": `QUADRUPLE!` });
     };
 
     return {
       "damage": totalDamage,
       "extra": data.extra.concat(moreExtras)
     };
+  }
+
+  static applyUsageText(spellRes, data) {
+
   }
 }

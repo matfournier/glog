@@ -40,6 +40,15 @@ export class GlogItem extends Item {
         return (maybeAbility) ? S.Just(maybeAbility) : S.Nothing;
     }
 
+    _getSecondaryBonus() {
+        if (this.data.data.hasOwnProperty("secondaryAbility")) {
+            const maybeAbility = this.data.data.secondaryAbility;
+            return (maybeAbility) ? S.Just(maybeAbility) : S.Nothing;    
+        } else {
+            return S.Nothing;
+        }
+    }
+
     _getAlternativeDamage() {
         const alternative = this.data.data.formula;
         return ((alternative) ? S.Just(alternative) : S.Nothing);
@@ -58,7 +67,7 @@ export class GlogItem extends Item {
     getWeaponModifier(mode) {
         if (mode === "melee") {
             return this.getLocalStatMods("meleeAttack");
-        } else if (mode === "ranged") {
+        } else if (mode === "ranged" || mode === "range") {
             return this.getLocalStatMods("rangeAttack");
         } else {
             return S.Nothing;
@@ -69,7 +78,7 @@ export class GlogItem extends Item {
     getWeaponDamageModifier(mode) {
         if (mode === "melee") {
             return this.getLocalStatMods("meleeDamage");
-        } else if (mode === "ranged") {
+        } else if (mode === "ranged" || mode === "range") {
             return this.getLocalStatMods("rangeDamage");
         } else {
             return S.Nothing;
@@ -79,8 +88,18 @@ export class GlogItem extends Item {
     getWeaponCritModifier(mode) {
         if (mode === "melee") {
             return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("meleeCritRange")));
-        } else if (mode === "ranged") {
+        } else if (mode === "ranged" || mode === "range") {
             return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("rangeCritRange")));
+        } else {
+            0
+        }
+    }
+
+    getWeaponFumbleModifier(mode) {
+        if (mode === "melee") {
+            return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("meleeFumbleRange")));
+        } else if (mode === "ranged" || mode === "range") {
+            return S.fromMaybe(0)(S.map(v => v.value)(this.getLocalStatMods("rangeFumbleRange")));
         } else {
             0
         }
@@ -131,6 +150,14 @@ export class GlogItem extends Item {
     _actionType() {
         return this.data.data.actionType;
     }
+
+    _secondaryAction() {
+        if (this.data.data.hasOwnProperty("secondaryAttackAction")) {
+            return this.data.data.secondaryAttackAction;
+        } else {
+            return null;
+        }
+    }
     _activationType() {
         return this.data.data.activation.type;
     }
@@ -178,10 +205,18 @@ export class GlogItem extends Item {
             (actionType === "melee") ? res.push(actionTypes.melee) : res.push(actionTypes.range);
         };
         res.push(actionTypes.effect("spell"));
+        this.getSecondaryAttack(res);
         if (S.isJust(this._getAlternativeDamage())) {
             res.push(actionTypes.alt("spell"));
         };
         return res;
+    }
+
+    getSecondaryAttack(arr) {
+        const secondaryType = this._secondaryAction()
+        if (secondaryType) {
+            (secondaryType === "melee") ? arr.push(actionTypes.melee) : arr.push(actionTypes.range);
+        };
     }
 
     getMiscDialogueModes() {
@@ -198,6 +233,7 @@ export class GlogItem extends Item {
                 };
             }
         }
+        this.getSecondaryAttack(res);
         if (actionType === "formula") {
             if (hasDamage) {
                 res.push(actionTypes.effect("spell"));
@@ -211,17 +247,22 @@ export class GlogItem extends Item {
 
     getWeaponDamageComponents(isAlternative) {
         const weaponType = (this.type === "weapon") ? this.data.data.weaponType : "na"
+        let spellDesc = ""
+        if (this.data.data.hasOwnProperty("casting")) {
+            spellDesc = this.data.data.casting;
+        }
         return {
             name: this.name,
             sourceItemType: this.type,
             "damageMod": S.fromMaybe(0)(S.map(v => v.value)(this.getWeaponDamageModifier(weaponType))), // why isn't this just on damage?
-            "bonusAtr": this._getBonus(),
+            "bonusAtr": (!isAlternative) ? this._getBonus() : this._getSecondaryBonus(),
             "formulas": (!isAlternative) ? this._getParsedDamageFormula(this._getRegularDamage()) : this._getParsedDamageFormula(this._getAlternativeDamage()),
-            "damageType": (!isAlternative) ? this._getDamageType() : this._getAltDamageType()
+            "damageType": (!isAlternative) ? this._getDamageType() : this._getAltDamageType(),
+            "casting": spellDesc
         }
     }
 
-    /** gets parameters for range, duration, consumption */
+    /** gets parameters ffor range, duration, consumption */
     getUsageFormulas() {
         if (this.type === "weapon") {
             return [];

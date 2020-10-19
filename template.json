@@ -123,11 +123,17 @@
           "meleeCritRange": {
             "value": 1
           },
+          "meleeFumbleRange": {
+            "value": 0
+          },
           "rangeDamage": {
             "value": 0
           },
           "rangeCritRange": {
             "value": 1
+          },
+          "rangeFumbleRange": {
+            "value": 0
           },
           "rangeDistanceMod": {
             "value": 0
@@ -136,6 +142,9 @@
             "value": 0
           },
           "fatigueMod": {
+            "value": 0
+          },
+          "initMod": {
             "value": 0
           }
         },
@@ -224,7 +233,7 @@
         "tertiary": {
           "value": 0,
           "max": 0,
-          "title": "Mem. Spells",
+          "title": "Spell Slots",
           "lr": 0,
           "sr": 0
         },
@@ -315,7 +324,6 @@
   },
   "Item": {
     "types": [
-      "item",
       "weapon",
       "equipment",
       "archetype",
@@ -396,18 +404,11 @@
         "damage": "",
         "damageType": "",
         "formula": "",
-        "formulaDamageType": ""
+        "formulaDamageType": "",
+        "casting": "",
+        "secondaryAttackAction": null,
+        "secondaryAbility": null
       }
-    },
-    "item": {
-      "templates": [
-        "base",
-        "hasWeight",
-        "hasCost",
-        "activatedEffect",
-        "action",
-        "itemDescription"
-      ]
     },
     "weapon": {
       "templates": [
@@ -455,7 +456,7 @@
       ],
       "type": "cantrip",
       "level": "oneSix",
-      "equipped": "true"
+      "equipped": true
     },
     "feat": {
       "templates": [
