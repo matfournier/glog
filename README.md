@@ -1,6 +1,6 @@
 # The GLOG for FoundryVTT 
 
-**THIS IS STILL IN HEAVY DEVELOPMENT STAGES** 
+**WE ARE BASICALLY PLAYABLE SEE COMPENDIUM FOR EXAMPLES**
 
 All the features you need to play The Goblin Laws of Gaming in Foundry VTT.
 
