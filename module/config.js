@@ -18,8 +18,7 @@ G.skillOrRace = {
 G.spellOrder = {
     "cantrip": 1,
     "brain": 2,
-    "spellbook": 3,
-    "scroll": 4
+    "spellbook": 3
 };
 
 G.spellLevels = {

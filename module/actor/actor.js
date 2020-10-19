@@ -612,7 +612,7 @@ export class GlogActor extends Actor {
     if (data.hp.value < 0) {
       prefix = "<p>Lethal damage removed. Now at 0 HP.</p>";
     } else {
-      prefix = `<p>Up to ${roll.total} HP has been restored.</p>`
+      prefix = `<p>Up to ${roll.total} HP has been restored (1d6 + level).</p>`
       newHP = Math.min(data.hp.value + roll.total, data.hp.max);
     }
 
