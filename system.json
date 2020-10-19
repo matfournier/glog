@@ -66,6 +66,6 @@
   "secondaryTokenAttribute": null,
   "url": "https://github.com/matfournier/glog",
   "manifest": "https://raw.githubusercontent.com/matfournier/glog/main/system.json",
-  "download": "https://github.com/matfournier/glog/releases/download/release/glog-0.1.4.zip",
+  "download": "https://github.com/matfournier/glog/releases/download/0.1.4/glog-0.1.4.zip",
   "license": "LICENSE.txt"
 }
