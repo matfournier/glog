@@ -1,5 +1,6 @@
 import { G } from "../config.js";
 import BaseGlogSheet from "./base-sheet.js";
+import {getLevelSaveBonus} from "./attributes.js";
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -76,126 +77,118 @@ export class GlogEnemySheet extends BaseGlogSheet {
         data.spellbook = Object.values(spellbook);
     }
 
-      /* -------------------------------------------- */
-  /*  Event Listeners and Handlers                */
-  /* -------------------------------------------- */
+    /* -------------------------------------------- */
+    /*  Event Listeners and Handlers                */
+    /* -------------------------------------------- */
 
-  /** @override */
-	activateListeners(html) {
+    /** @override */
+    activateListeners(html) {
         super.activateListeners(html);
         html.find(".health .rollable").click(this._onRollHPFormula.bind(this));
         html.find(".hd .rollable").click(this._onPopulateFromHD.bind(this));
         html.find(".morale .rollable").click(this._rollMorale.bind(this));
 
 
-      }
-
-        /**
-   * Handle rolling NPC health values using the provided formula
-   * @param {Event} event     The original click event
-   * @private
-   */
-  _onRollHPFormula(event) {
-    event.preventDefault();
-    const formula = this.actor.data.data.attributes.hp.formula;
-    if ( !formula ) return;
-    const hp = new Roll(formula).roll().total;
-    AudioHelper.play({src: CONFIG.sounds.dice});
-    this.actor.update({"data.hp.value": hp, "data.hp.max": hp});
-  }
-
-  _onPopulateFromHD(event) {   
-    event.preventDefault();
-    const hd = this.actor.data.data.details.cr.level; 
-   
-    const atkValue = this._attackFromHD(hd);
-    const save = this._getSaveFromHD(hd);
-
-    this.actor.update(
-      {"data.primaryStats.meleeAttack.value": atkValue,
-      "data.primaryStats.meleeAttack.total": atkValue,
-      "data.primaryStats.rangeAttack.value": atkValue,
-      "data.primaryStats.rangeAttack.total": atkValue,
-      "data.primaryStats.save.value": save,
-      "data.primaryStats.save.total": save,
-      "data.primaryStats.def.value": 12,
-      "data.primaryStats.def.value": 12
     }
-    )
-  }
 
-
-  _attackFromHD(hd) {
-      if (hd <= 0) {
-          return 10
-      }
-      else if (hd <= 1) {
-          return 10
-      }
-      else if (hd <= 2) {
-        return 11
+    /**
+* Handle rolling NPC health values using the provided formula
+* @param {Event} event     The original click event
+* @private
+*/
+    _onRollHPFormula(event) {
+        event.preventDefault();
+        const formula = this.actor.data.data.attributes.hp.formula;
+        if (!formula) return;
+        const hp = new Roll(formula).roll().total;
+        AudioHelper.play({ src: CONFIG.sounds.dice });
+        this.actor.update({ "data.hp.value": hp, "data.hp.max": hp });
     }
-      else if (hd <= 3) {
-          return 12
-      }
-      else if (hd <= 5) {
-          return 14
-      }
-      else if (hd <= 7) {
-          return 15
-      }
-      else {
-          return 10 + (hd -2)
-      }
-  }
 
-  _getSaveFromHD(hd) {
-      return 4 + Math.round(1.3333 * hd)
-  }
+    _onPopulateFromHD(event) {
+        event.preventDefault();
+        const hd = (+this.actor.data.data.details.cr.level);
 
-  _rollMorale(event) {
-    event.preventDefault();
-    const morale = +this.actor.data.data.morale;
-    const name = this.actor.name;
+        const atkValue = this._attackFromHD(hd);
+        const save = this._getSaveFromHD(hd);
+        this._hpFromHD(hd);
 
-    const skip = morale === 2 || morale === 3;
-    if (!skip) {
+        this.actor.update(
+            {
+                "data.primaryStats.meleeAttack.value": atkValue,
+                "data.primaryStats.meleeAttack.total": atkValue,
+                "data.primaryStats.rangeAttack.value": atkValue,
+                "data.primaryStats.rangeAttack.total": atkValue,
+                "data.primaryStats.save.value": save,
+                "data.primaryStats.save.total": save,
+                "data.primaryStats.def.value": 12,
+                "data.primaryStats.def.total": 12,
+                "data.primaryStats.mv.value": 30,
+                "data.primaryStats.mv.total": 30
+            }
+        )
+    }
 
-        return new Dialog({
-            title: `Morale check for ${name}`,
-            content: `
+    _attackFromHD(hd) {
+        return 10 + hd;
+    }
+    _hpFromHD(hd) {
+        const formula = this.actor.data.data.attributes.hp.formula;
+        if (!formula) {
+            const roll = (hd == 0) ?  `1d6` : `${hd}d8`;
+            const hp = new Roll(roll).roll().total;
+            AudioHelper.play({ src: CONFIG.sounds.dice });
+            this.actor.update({ "data.hp.value": hp, "data.hp.max": hp });
+        }
+    }
+
+    _getSaveFromHD(hd) {
+        return getLevelSaveBonus(hd);
+    }
+
+    _rollMorale(event) {
+        event.preventDefault();
+        const morale = +this.actor.data.data.morale;
+        const name = this.actor.name;
+
+        const skip = morale === 2 || morale === 3;
+        if (!skip) {
+
+            return new Dialog({
+                title: `Morale check for ${name}`,
+                content: `
             <form class="flexcol">
             <div class="form-group">
               <label for="situation">Situation Modifier</label>
               <input type="text" name="situation" placeholder="0">
             </div>
           </form>`,
-            buttons: {
-              test: {
-                label: "Morale check",
-                callback: (html) => {
-                  const situationMod = html.find('input[name="situation"]').val();
-                  const mod = (situationMod) ? (+situationMod) : 0;
-                  // this is an OVER so need to invert the result
-                  // since you want a +2 to help, so that means take -2 off the result 
-                  // because if you roll over morale you fail. 
-                  const roll = new Roll(["2d6", (mod * -1)].join("+")).roll();
-                  const speaker = ChatMessage.getSpeaker({ actor: this });
-                  let flavor = ""
-                  if (roll.total > morale) {
-                      flavor = `${this.actor.name} fails it's morale check!`;
-                  } else {
-                      flavor = `${this.actor.name} passes it's morale check!`;
-                  };
-                  roll.toMessage({
-                      flavor: flavor,
-                      spaker: speaker
-                    });
+                buttons: {
+                    test: {
+                        label: "Morale check",
+                        callback: (html) => {
+                            const situationMod = html.find('input[name="situation"]').val();
+                            const mod = (situationMod) ? (+situationMod) : 0;
+                            // this is an OVER so need to invert the result
+                            // since you want a +2 to help, so that means take -2 off the result 
+                            // because if you roll over morale you fail. 
+                            const roll = new Roll(["2d6", (mod * -1)].join("+")).roll();
+                            const speaker = ChatMessage.getSpeaker({ actor: this });
+                            let flavor = ""
+                            if (roll.total > morale) {
+                                flavor = `${this.actor.name} fails it's morale check!`;
+                            } else {
+                                flavor = `${this.actor.name} passes it's morale check!`;
+                            };
+                            roll.toMessage({
+                                flavor: flavor,
+                                spaker: speaker
+                            });
+                        }
+                    }
                 }
-              }
-            }
-          }).render(true);
+            }).render(true);
+        }
     }
-  }
-    
+
 }

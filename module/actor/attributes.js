@@ -183,45 +183,45 @@ const determineSthMvPenality = (armour) => {
     }, 0)
 }
 
-const getLevelSaveBonus = level => {
+export const getLevelSaveBonus = level => {
     if (level <= 0) {
-        return 5
+        return 5;
     }
     else if (level <= 1) {
-        return 6
+        return 6;
     }
     else if (level <= 4) {
-        return 7
+        return 7;
     }
     else if (level <= 7) {
-        return 8
+        return 8;
     }
     else if (level <= 9) {
-        return 9
+        return 9;
     }
     else {
-        return 10
+        return 10;
     }
 }
 
 const determineAttackFromLevel = level => {
     if (level <= 0) {
-        return 10
+        return 10;
     }
     else if (level <= 1) {
-        return 11
+        return 11;
     }
     else if (level <= 3) {
-        return 12
+        return 12;
     }
     else if (level <= 5) {
-        return 13
+        return 13;
     }
     else if (level <= 7) {
-        return 14
+        return 14;
     }
     else {
-        return 15
+        return 15;
     }
 }
 

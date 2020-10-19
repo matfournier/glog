@@ -308,6 +308,12 @@
         },
         "rangeDecayMod": {
           "value": 1
+        },
+        "meleeFumbleRange": {
+          "value": 0
+        },
+        "rangeFumbleRange": {
+          "value": 0
         }
       },
       "movement": {
@@ -406,6 +412,7 @@
         "formula": "",
         "formulaDamageType": "",
         "casting": "",
+        "secondaryCasting": "",
         "secondaryAttackAction": null,
         "secondaryAbility": null
       }

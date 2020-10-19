@@ -24,8 +24,6 @@ export class GlogActor extends Actor {
 
     const actorData = this.data;
 
-    this._syncVersions(actorData.data);
-
     switch (actorData.type) {
       case "character":
         return this._prepareCharacterData(actorData);
@@ -34,16 +32,6 @@ export class GlogActor extends Actor {
     }
 
   }
-
-  _syncVersions(data) {
-    if(!data.stats.hasOwnProperty("meleeFumbleRange")) {
-      data.stats["meleeFumbleRange"] = {value: 0};
-    }
-    if(!data.stats.hasOwnProperty("rangeFumbleRange")) {
-      data.stats["rangeFumbleRange"] = {value: 0};
-    }
-  }
-
 
   /** @override */
   async createOwnedItem(itemData, options) {
@@ -69,11 +57,23 @@ export class GlogActor extends Actor {
     return super.createOwnedItem(itemData, options);
   }
 
+  /** Needed until I redo the compendium classes */
+  _syncVersions(data) {
+    if(!data.stats.hasOwnProperty("meleeFumbleRange")) {
+      data.stats["meleeFumbleRange"] = {value: 0};
+    }
+    if(!data.stats.hasOwnProperty("rangeFumbleRange")) {
+      data.stats["rangeFumbleRange"] = {value: 0};
+    }
+  }
+
+
   /**
    * Prepare Character type specific data
    */
   _prepareCharacterData(actorData) {
     const data = actorData.data;
+    this._syncVersions(actorData.data); // needed until I redo the compendium example classes
 
     /**
      * TODO need to clean these up but for now, on the template.json file 
