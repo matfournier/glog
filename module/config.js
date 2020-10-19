@@ -209,7 +209,9 @@ G.damageTypes = {
     "poison": "Poison",
     "psychic": "Psychic",
     "radiant": "Radiant",
-    "slashing": "Slashing"
+    "slashing": "Slashing",
+    "magic": "Magic",
+    "alien": "Alien"
 };
 
 // Damage Resistance Types
@@ -284,7 +286,8 @@ G.monsterTags = {
     "insect": "Insect",
     "guard": "Guardian",
     "flying": "Flying",
-    "swimming": "Swimming"
+    "swimming": "Swimming",
+    "infra": "Infravision"
 }
 
 /**
@@ -416,6 +419,11 @@ G.miscActionTypes = {
     "melee": "Melee Attack",
     "ranged": "Range Attack",
     "formula": "Formula/spell/effect"
+};
+
+G.secondaryActionTypes = {
+    "melee": "Melee Attack",
+    "ranged": "Range Attack"
 };
 
 G.weaponActionTypes = {};

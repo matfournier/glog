@@ -405,7 +405,9 @@
         "damageType": "",
         "formula": "",
         "formulaDamageType": "",
-        "casting": ""
+        "casting": "",
+        "secondaryAttackAction": null,
+        "secondaryAbility": null
       }
     },
     "weapon": {

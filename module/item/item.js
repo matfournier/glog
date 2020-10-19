@@ -40,6 +40,15 @@ export class GlogItem extends Item {
         return (maybeAbility) ? S.Just(maybeAbility) : S.Nothing;
     }
 
+    _getSecondaryBonus() {
+        if (this.data.data.hasOwnProperty("secondaryAbility")) {
+            const maybeAbility = this.data.data.secondaryAbility;
+            return (maybeAbility) ? S.Just(maybeAbility) : S.Nothing;    
+        } else {
+            return S.Nothing;
+        }
+    }
+
     _getAlternativeDamage() {
         const alternative = this.data.data.formula;
         return ((alternative) ? S.Just(alternative) : S.Nothing);
@@ -141,6 +150,14 @@ export class GlogItem extends Item {
     _actionType() {
         return this.data.data.actionType;
     }
+
+    _secondaryAction() {
+        if (this.data.data.hasOwnProperty("secondaryAttackAction")) {
+            return this.data.data.secondaryAttackAction;
+        } else {
+            return null;
+        }
+    }
     _activationType() {
         return this.data.data.activation.type;
     }
@@ -188,10 +205,18 @@ export class GlogItem extends Item {
             (actionType === "melee") ? res.push(actionTypes.melee) : res.push(actionTypes.range);
         };
         res.push(actionTypes.effect("spell"));
+        this.getSecondaryAttack(res);
         if (S.isJust(this._getAlternativeDamage())) {
             res.push(actionTypes.alt("spell"));
         };
         return res;
+    }
+
+    getSecondaryAttack(arr) {
+        const secondaryType = this._secondaryAction()
+        if (secondaryType) {
+            (secondaryType === "melee") ? arr.push(actionTypes.melee) : arr.push(actionTypes.range);
+        };
     }
 
     getMiscDialogueModes() {
@@ -208,6 +233,7 @@ export class GlogItem extends Item {
                 };
             }
         }
+        this.getSecondaryAttack(res);
         if (actionType === "formula") {
             if (hasDamage) {
                 res.push(actionTypes.effect("spell"));
@@ -229,7 +255,7 @@ export class GlogItem extends Item {
             name: this.name,
             sourceItemType: this.type,
             "damageMod": S.fromMaybe(0)(S.map(v => v.value)(this.getWeaponDamageModifier(weaponType))), // why isn't this just on damage?
-            "bonusAtr": this._getBonus(),
+            "bonusAtr": (!isAlternative) ? this._getBonus() : this._getSecondaryBonus(),
             "formulas": (!isAlternative) ? this._getParsedDamageFormula(this._getRegularDamage()) : this._getParsedDamageFormula(this._getAlternativeDamage()),
             "damageType": (!isAlternative) ? this._getDamageType() : this._getAltDamageType(),
             "casting": spellDesc
