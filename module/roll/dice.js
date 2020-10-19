@@ -41,18 +41,7 @@ export class GlogDice {
       templateData.result = GlogDice.applySingleDice(data, roll);
     }
 
-    // convert the roll to a chat message and return the roll
-
-    // templateData.result = {
-    //     isSuccess: false,
-    //     isFailure: false,
-    //     // target: 19,
-    //     // total: -1,
-    //     details: "<b>Attack fils!</b>"
-    // };
-    let x = 9;
-
-    return new Promise((resolve) => {
+      return new Promise((resolve) => {
       roll.render().then((r) => {
         templateData.rollGLOG = r;
         renderTemplate(template, templateData).then((content) => {
@@ -121,6 +110,8 @@ export class GlogDice {
   }
 
   static applyDiceDamage(data, roll) {
+    let moreExtras = {"text": data.usage};
+    data.extra.unshift(moreExtras);
     let result = {
       "damage": (roll.total < 1) ? 1 : roll.total
     }
@@ -166,9 +157,5 @@ export class GlogDice {
       "damage": totalDamage,
       "extra": data.extra.concat(moreExtras)
     };
-  }
-
-  static applyUsageText(spellRes, data) {
-
   }
 }

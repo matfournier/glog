@@ -215,8 +215,12 @@ export class GlogActor extends Actor {
     let global = 0
     // otherwise you are a spell.
     if (type === "melee" || type == "ranged" || type === "range") {
-      const atk = (type === "melee") ? "meleeDamage" : "rangeDamage";
-      global = data.allStats[atk].value;
+      if (data.type === "character") {
+        const atk = (type === "melee") ? "meleeDamage" : "rangeDamage";
+        global = data.allStats[atk].value;
+      } else {
+        global = 0;
+      }
     }
     const bonus = S.fromMaybe(0)(S.map(atr => data.allStats[atr].bonus)(bonusAtr));
     return {
