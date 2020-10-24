@@ -464,3 +464,9 @@ G.icons = {
         icon: "systems/glog/ui/icons/equipment/leather.svg"
     }
 };
+
+G.encounter = {
+    "recon": "Have Light/Torch/Lantern",
+    "candle": "Candle only",
+    "dark": "Darkness"
+};

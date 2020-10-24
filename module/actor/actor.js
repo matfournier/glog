@@ -370,12 +370,12 @@ export class GlogActor extends Actor {
   }
   generateButtonsForModes(mode, item) {
     if (mode.type === "attack") {
-      return {
-        attack: {
-          "label": `${mode.subType} ${mode.type}`,
-          callback: () => this.rollWeaponDialogue(item, mode.subType)
-        }
-      }
+      let r = {};
+      r[`${mode.type}_${mode.subType}`] = {
+        "label": `${mode.subType} ${mode.type}`,
+        callback: () => this.rollWeaponDialogue(item, mode.subType)
+      };
+      return r;
     } else if (mode.type === "effect") {
       if (mode.subtype === "effect") {
         return {
@@ -629,7 +629,7 @@ export class GlogActor extends Actor {
 
     roll.toMessage({
       flavor: flavor,
-      spaker: speaker
+      speaker: speaker
     });
 
   }

@@ -8,6 +8,7 @@ import { G } from "./config.js";
 import { registerSystemSettings } from "./settings.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
 import { _getInitiativeFormula } from "./combat.js";
+import { GmTools } from "./gm/tables.js";
 
 import TraitSelector from "./apps/trait-selector.js";
 
@@ -43,7 +44,8 @@ Hooks.once('init', async function () {
       GlogItem,
       TraitSelector
     },
-    config: G
+    config: G,
+    gmTools: GmTools
   };
 
   /**

@@ -2,9 +2,9 @@
   "name": "glog",
   "title": "Glog",
   "description": "The Glog system for FoundryVTT!",
-  "version": "0.1.51",
-  "minimumCoreVersion": "0.7.4",
-  "compatibleCoreVersion": "0.7.4",
+  "version": "0.1.52",
+  "minimumCoreVersion": "0.7.5",
+  "compatibleCoreVersion": "0.7.5",
   "templateVersion": 2,
   "author": "MatF",
   "esmodules": [
@@ -51,7 +51,22 @@
       "system": "glog",
       "path": "./packs/glog_classes.db",
       "entity": "Actor"
+    },
+    {
+      "name": "gm_tables",
+      "label": "GLOG-GM-TABLES",
+      "system": "glog",
+      "path": "./packs/glog_gm_tables.db",
+      "entity": "RollTable"
+    },
+    {
+      "name": "glog_tables",
+      "label": "GLOG-TABLES",
+      "system": "glog",
+      "path": "./packs/glog_tables.db",
+      "entity": "RollTable"
     }
+
   ],
   "languages": [
     {
