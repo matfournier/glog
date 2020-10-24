@@ -1,6 +1,6 @@
 # The GLOG for FoundryVTT 
 
-**THIS IS STILL IN HEAVY DEVELOPMENT STAGES** 
+More or less ready to go:  [see the usage guide here](https://github.com/matfournier/glog-foundry-guide) . If you have questions you can find me in the `glog-ghetto` channel of [OSR DISCORD](https://www.reddit.com/r/osr/comments/9mj0dl/chris_mcdowalls_osr_discord_not_a_replacement_for/).  Still in development --hoping to get more content in the compendium, but it's ready to go.  Compendium has items + class examples.  Guide has a walkthrough for how it all works.  HMU if you find bugs.
 
 All the features you need to play The Goblin Laws of Gaming in Foundry VTT.
 
