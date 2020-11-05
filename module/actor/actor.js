@@ -431,6 +431,14 @@ export class GlogActor extends Actor {
           <label for="situation">Hit modifier</label>
           <input type="text" name="situation" placeholder="0">
         </div>
+        <div class="form-group">
+        <label for="advantage">Advantage</label>
+        <select name="ddadvantage">
+          <option value="none">None</option>
+          <option value="advantage">Advantage</option>
+          <option value="disadvantage">Disadvantage</option>
+        </select>
+        </div>
       </form>`
     }
     if (weaponType == "range") {
@@ -448,6 +456,14 @@ export class GlogActor extends Actor {
         <label for="situation">Hit or Dam modifier</label>
         <input type="text" name="situation" placeholder="0">
       </div>
+      <div class="form-group">
+      <label for="advantage">Advantage</label>
+      <select name="ddadvantage">
+        <option value="none">None</option>
+        <option value="advantage">Advantage</option>
+        <option value="disadvantage">Disadvantage</option>
+      </select>
+      </div>
     </form>`
     }
   }
@@ -456,10 +472,13 @@ export class GlogActor extends Actor {
     const target = html.find('input[name="target"]').val();
     const situationMod = html.find('input[name="situation"]').val();
     const range = html.find('input[name="range"]').val() || "0";
+    const advantage = html.find('select[name="ddadvantage"]').val();
+    console.log(advantage);
     return {
       "situationMod": S.fromMaybe(0)(S.parseInt(10)(situationMod)),
       "target": S.fromMaybe(10)(S.parseInt(10)(target)),
-      "range": S.fromMaybe(0)(S.parseInt(10)(range))
+      "range": S.fromMaybe(0)(S.parseInt(10)(range)),
+      "advantage": advantage
     }
   }
 
@@ -505,7 +524,7 @@ export class GlogActor extends Actor {
 
     // Figure out what kind of dice you need
     const needsDice = (itemDamage.formulas) ? ((itemDamage.formulas.type === "formula") ? true : false) : false;
-    const content = this.rollWeaponDamageDialogueContent(needsDice);
+    const content = this.rollWeaponDamageDialogueContent(needsDice, item.data.type === "spell");
 
     // screw this compatable formulas for now 
     // const compatableFormulas = roll.hasCompatableFormulas(itemDamage.formulas, usageFormulas);
@@ -541,7 +560,7 @@ export class GlogActor extends Actor {
   }
 
 
-  rollWeaponDamageDialogueContent(needsND) {
+  rollWeaponDamageDialogueContent(needsND, isSpell) {
     if (needsND) {
       return `
       <form class="flexcol">
@@ -554,12 +573,28 @@ export class GlogActor extends Actor {
         <input type="text" name="situation" placeholder="0">
       </div>
     </form>`
+    } else if (isSpell){
+      return `
+      <form class="flexcol">
+      <div class="form-group">
+        <label for="situation">Damage modifier</label>
+        <input type="text" name="situation" placeholder="0">
+      </div>
+    </form>`
     } else {
       return `
       <form class="flexcol">
       <div class="form-group">
         <label for="situation">Damage modifier</label>
         <input type="text" name="situation" placeholder="0">
+      </div>
+      <div class="form-group">
+      <label for="advantage">Advantage</label>
+      <select name="ddadvantage">
+        <option value="none">None</option>
+        <option value="advantage">Advantage</option>
+        <option value="disadvantage">Disadvantage</option>
+      </select>
       </div>
     </form>`
     }
@@ -568,9 +603,11 @@ export class GlogActor extends Actor {
   parseWeaponDamageDialogueContent(html) {
     const situationMod = html.find('input[name="situation"]').val();
     const nd = html.find('input[name="nd"]').val() || "1";
+    const advantage = html.find('select[name="ddadvantage"]').val() || "none";
     return {
       "situationMod": S.fromMaybe(0)(S.parseInt(10)(situationMod)),
-      "nd": S.fromMaybe(0)(S.parseInt(10)(nd))
+      "nd": S.fromMaybe(0)(S.parseInt(10)(nd)),
+      "advantage": advantage
     }
   }
 

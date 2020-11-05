@@ -22,27 +22,39 @@ export class GlogDice {
       data: data
     };
 
-    let roll = null;
+    let renderRoll = null;
     let template = "";
     if (data.type === "damage") {
       if (data.condition === "formula") {
         template = "systems/glog/templates/chat/roll-spell.html";
-        roll = new Roll(`${nd}d6`, data).roll();
+        let roll = new Roll(`${nd}d6`, data).roll();
         templateData.result = GlogDice.applySpellDice(data, roll, parts);
+        renderRoll = roll;
       } else {
         template = "systems/glog/templates/chat/roll-damage.html";
-        roll = new Roll(parts, data).roll();
-        templateData.result = GlogDice.applyDiceDamage(data, roll);
+        let rolls = [];
+        rolls.push(new Roll(parts, data).roll())
+        if (data.advantage != "none") {
+          rolls.push(new Roll(parts, data).roll())
+        }
+        templateData.result = GlogDice.applyDiceDamage(data, rolls);
+        renderRoll = GlogDice.getBestDamageDice(data, rolls);
       }
-
     } else {
       template = "systems/glog/templates/chat/roll-result.html";
-      roll = new Roll(parts, data).roll();
-      templateData.result = GlogDice.applySingleDice(data, roll);
+      let rolls = [];
+      rolls.push(new Roll(parts, data).roll())
+      if (data.advantage != "none") {
+        rolls.push(new Roll(parts, data).roll())
+      }
+      templateData.result = GlogDice.applySingleDice(data, rolls);
+      renderRoll = GlogDice.getBestAttackDie(data, rolls);
     }
 
-      return new Promise((resolve) => {
-      roll.render().then((r) => {
+    return new Promise((resolve) => {
+      // need to know which roll was the best.
+      // this is a massive pain.
+      renderRoll.render().then((r) => {
         templateData.rollGLOG = r;
         renderTemplate(template, templateData).then((content) => {
           chatData.content = content;
@@ -63,7 +75,7 @@ export class GlogDice {
           } else {
             chatData.sound = CONFIG.sounds.dice;
             ChatMessage.create(chatData);
-            resolve(roll);
+            resolve(renderRoll);
           }
         });
       });
@@ -77,13 +89,18 @@ export class GlogDice {
       isCriticalSuccess: false,
       isFailure: false,
       isCriticalFailure: false,
-      total: roll.total,
+      total: null,
       details: "",
       extra: []
     };
 
-    let die = roll.terms[0].total;
+    let die = 0;
+    let total = 0;
     if (data.condition == "below") {
+      const best = GlogDice.getBestAttackDie(data, roll);
+      die = best.terms[0].total
+      total = best.total
+      data.extra.unshift({ "text": `unmodified rolls: ${roll.map(e => e.terms[0].total)}` });
       if (data.crit.can) {
         if (die <= data.crit.on) {
           result.isCriticalSuccess = true,
@@ -98,7 +115,7 @@ export class GlogDice {
           return result
         }
       }
-      if (roll.total <= data.target) {
+      if (total <= data.target) {
         result.isSuccess = true;
         result.details = data.success;
       } else {
@@ -106,16 +123,50 @@ export class GlogDice {
         result.details = data.failure;
       }
     }
+    result.total = total;
     return result;
   }
 
+  static getBestAttackDie(data, roll) {
+    if (data.condition === "below") {
+      if (data.advantage === "none") {
+        return roll[0]
+      } else if (data.advantage === "advantage") {
+        return (roll.reduce(function (prev, curr) {
+          return prev.terms[0].total > curr.terms[0].total ? curr : prev
+        }));
+      } else {
+        return (roll.reduce(function (prev, curr) {
+          return prev.terms[0].total > curr.terms[0].total ? prev : curr
+        }));
+      }
+    }
+  }
+
   static applyDiceDamage(data, roll) {
-    let moreExtras = {"text": data.usage};
+    let moreExtras = { "text": data.usage };
     data.extra.unshift(moreExtras);
+    data.extra.unshift({ "text": `unmodified rolls: ${roll.map(e => e.terms[0].total)}` });
+    let die = GlogDice.getBestDamageDice(data, roll);
     let result = {
-      "damage": (roll.total < 1) ? 1 : roll.total
+      "damage": (die.total < 1) ? 1 : die.total
     }
     return result;
+  }
+
+  static getBestDamageDice(data, roll) {
+    if (data.advantage === "advantage") {
+      return (roll.reduce(function (prev, curr) {
+        return prev.terms[0].total > curr.terms[0].total ? prev : curr
+      }));
+    } else if (data.advantage === "disadvantage") {
+      return (roll.reduce(function (prev, curr) {
+        return prev.terms[0].total > curr.terms[0].total ? curr : prev
+      }));
+    }
+    else {
+      return roll[0];
+    }
   }
 
 
@@ -140,7 +191,7 @@ export class GlogDice {
       { "text": `diceToRemove: ${res.diceToRemove}` }
     ]
     if (data.usage) {
-      moreExtras.unshift({"text": `usage: ${effectiveUsage}`});
+      moreExtras.unshift({ "text": `usage: ${effectiveUsage}` });
     }
     if (res.complications.mishaps > 0) {
       moreExtras.push({ "text": `mishaps: ${res.complications.mishaps}` });

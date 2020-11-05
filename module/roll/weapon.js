@@ -18,7 +18,6 @@ import * as spell from "./spell.js";
 
 export function getBasicWeaponAttack(attackStats, weapon, input) {
     const parsedTarget = input.target;
-
     const appliedSituationMod = roll.maybeSituationModifier(input.situationMod);
     const appliedWeaponMod = weapon.weaponMod;
     const penalties = attackPenalty(attackStats, weapon, input);
@@ -63,7 +62,8 @@ export function getBasicWeaponAttack(attackStats, weapon, input) {
                 "on": fumbleRange,
                 "text": "FUMBLE!"
             },
-            "extra": extras
+            "advantage": input.advantage,
+            "extra": extras.concat(getAdvantageExtras(input.advantage))
         }
     };
     return result;
@@ -143,8 +143,9 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas)),
-                "usage": getSpellDescription(itemDamage)
+                "extra": extras.concat(simpleUsageDetails(usage.formulas)).concat(getAdvantageExtras(input.advantage)),
+                "usage": getSpellDescription(itemDamage),
+                "advantage": input.advantage
             }
         }
         return result;
@@ -165,8 +166,9 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas)),
-                "usage": getSpellDescription(itemDamage)
+                "extra": extras.concat(simpleUsageDetails(usage.formulas)).concat(getAdvantageExtras(input.advantage)),
+                "usage": getSpellDescription(itemDamage),
+                "advantage": input.advantage
             }
         }
         return result;
@@ -187,8 +189,9 @@ export function applyDamage(itemDamage, dieMods, usage, input) {
                 "failure": null,
                 "crit": null,
                 "fumble": null,
-                "extra": extras.concat(simpleUsageDetails(usage.formulas)),
-                "usage": getSpellDescription(itemDamage)
+                "extra": extras.concat(simpleUsageDetails(usage.formulas)).concat(getAdvantageExtras(input.advantage)),
+                "usage": getSpellDescription(itemDamage),
+                "advantage": input.advantage
             }
         }
         return result;
@@ -208,6 +211,19 @@ export function simpleUsageDetails(usage) {
         }
         return acc;
     }, [])
+}
+
+function getAdvantageExtras(extras) {
+    let res = [];
+    if(extras === "advantage") {
+        res.push({
+            "text": `with advantage (best)`
+        })
+    }
+    if(extras === "disadvantage") {
+        res.push({"text": "with disadvantage (worst)"})
+    }
+    return res;
 }
 
 function getSpellDescription(itemDamage) {
