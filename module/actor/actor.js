@@ -101,6 +101,7 @@ export class GlogActor extends Actor {
       for (let [s, stat] of Object.entries(CONFIG.G.configStats)) {
         uconfig[s] = false;
       }
+      uconfig['quickslots'] = 3;
       data['uconfig'] = uconfig;
     };
 
@@ -153,11 +154,12 @@ export class GlogActor extends Actor {
     const stats = data.stats;
     const invQuickMod = data['equippedModSummary'].invQuick;
     const invSlowMod = data['equippedModSummary'].invSlow;
+    const configQs = (data.uconfig.quickslots) ? (+data.uconfig.quickslots) : 3;
 
     const fatigue = data.aux.fatigue.value + fatigueMod;
     const slots = data.slots;
     const totalAllowed = data.abilities["str"].total - fatigue;
-    const quickSlotsAllowed = (totalAllowed <= 3 + invQuickMod) ? totalAllowed : 3 + invQuickMod;
+    const quickSlotsAllowed = (totalAllowed <= configQs + invQuickMod) ? totalAllowed : configQs + invQuickMod;
     const regularAllowed = totalAllowed - quickSlotsAllowed + invSlowMod;
 
     const weighted = items.filter(item => item.data.hasOwnProperty("slots"));
