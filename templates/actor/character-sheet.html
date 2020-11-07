@@ -198,7 +198,7 @@
                 {{! -- Fatigue --}}
                 <ul class="ability-scores flexrow">
                         <li class="ability proficient" data-ability="fatigue">
-                            <h4 class="ability-name box-title rollable">Fatigue</h4>
+                            <h4 class="ability-name box-title">Fatigue</h4>
                             <input class="ability-score" name="data.aux.fatigue.value" type="text" value="{{data.aux.fatigue.value}}" data-dtype="Number" placeholder="0"/>
                             <div class="ability-modifiers flexrow">
                                 <span class="ability-mod" title="Modifier">{{numberFormat data.aux.fatigue.mod decimals=0 sign=true}}</span>
@@ -206,7 +206,14 @@
                                 <span class="ability-save" title="Total">{{numberFormat data.aux.fatigue.total decimals=0 sign=true}}</span>
                             </div>
                         </li>
-                    </ul>
+
+                    {{#if data.uconfig.bslots}}
+                    <li class="ability proficient" data-ability="bslots">
+                        <h4 class="ability-name box-title rollable">Base Slots</h4>
+                        <input class="ability-score" name="data.aux.bslots.value" type="text" value="{{data.aux.bslots.value}}" data-dtype="Number" placeholder="0"/>
+                    </li>
+                    {{/if}}
+                </ul>
 
             </section>
         </div>

@@ -158,6 +158,9 @@
           },
           "run": {
             "value": 0
+          },
+          "bslots": {
+            "value": 0
           }
         }
       },

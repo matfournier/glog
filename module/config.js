@@ -98,7 +98,8 @@ G.configStats = {
     "mv": "Move Rating",
     "sth": "Stealth",
     "save": "Save",
-    "attack": "Attack Ratings"
+    "attack": "Attack Ratings",
+    "bslots": "Slots"
 };
 
 G.npcStats = {

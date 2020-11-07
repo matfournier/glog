@@ -35,6 +35,13 @@
               data.uconfig.mv }} data-dtype="Boolean" />
         </div>
     </div>
+    <div class="form-group">
+        <label for="bslots">Slot Calculation</label>
+        <div class="form-fields">
+            <input type="checkbox" name="data.uconfig.bslots" id="bslots" {{checked
+              data.uconfig.bslots }} data-dtype="Boolean" />
+        </div>
+    </div>
 
     <div>MANUAL BONUS MODIFIER INPUT FOR:</div>
 
@@ -93,6 +100,7 @@
             <input type="text" name="data.uconfig.quickslots" value="{{data.uconfig.quickslots}}" placeholder="3" />
         </div>
     </div> 
+    
     <footer class="sheet-footer">
         <button type="submit">
             <i class="fas fa-save"></i>Save Changes

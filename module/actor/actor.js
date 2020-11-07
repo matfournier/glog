@@ -65,6 +65,9 @@ export class GlogActor extends Actor {
     if(!data.stats.hasOwnProperty("rangeFumbleRange")) {
       data.stats["rangeFumbleRange"] = {value: 0};
     }
+    if(!data.aux.hasOwnProperty("bslots")) {
+      data.stats["bslots"] = {value: 0}
+    }
   }
 
 
@@ -151,14 +154,14 @@ export class GlogActor extends Actor {
   }
 
   _determineSlotLimits(data, items, fatigueMod) {
-    const stats = data.stats;
     const invQuickMod = data['equippedModSummary'].invQuick;
     const invSlowMod = data['equippedModSummary'].invSlow;
     const configQs = (data.uconfig.quickslots) ? (+data.uconfig.quickslots) : 3;
 
     const fatigue = data.aux.fatigue.value + fatigueMod;
     const slots = data.slots;
-    const totalAllowed = data.abilities["str"].total - fatigue;
+    const baseSlots = (data.uconfig.bslots) ? data.aux.bslots.value : data.abilities["str"].total;
+    const totalAllowed = baseSlots - fatigue;
     const quickSlotsAllowed = (totalAllowed <= configQs + invQuickMod) ? totalAllowed : configQs + invQuickMod;
     const regularAllowed = totalAllowed - quickSlotsAllowed + invSlowMod;
 
